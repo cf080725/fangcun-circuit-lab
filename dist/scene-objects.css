@@ -1,0 +1,135 @@
+/* Keep object actions in reach even with the inspector folded. */
+.scene-object-toolbar {
+  position: relative;
+  z-index: 7;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 4px 9px;
+  border-bottom: 1px solid #d6e2d9;
+  background: #f8fbf7;
+  color: #284538;
+}
+.scene-object-toolbar [hidden] { display: none !important; }
+.scene-object-toolbar button {
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: transparent;
+  color: #245445;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.scene-object-toolbar button:hover { background: #e5f1e8; }
+.scene-object-toolbar button:focus-visible,
+.scene-object-toolbar input:focus-visible,
+.scene-delete-actions button:focus-visible { outline: 2px solid #146a59; outline-offset: 2px; }
+.scene-object-toolbar button:disabled { opacity: .55; cursor: default; }
+.scene-object-toolbar button[aria-expanded="true"] { background: #e4f2ea; border-color: #abd2bd; }
+.scene-object-toolbar .scene-rotate:not(:disabled) { background: #e5f4eb; border-color: #b3d9c2; }
+.scene-object-toolbar .scene-rotate:not(:disabled):hover { background: #d7ede1; }
+.scene-object-toolbar #sceneFocusBoard[aria-pressed="true"] { background: #1f694f; border-color: #1f694f; color: #fff; }
+.scene-board-slots { display: inline-flex; align-items: center; gap: 2px; }
+.scene-board-slots button:not(.scene-rotate) { min-width: 32px; border-color: #b3d9c2; }
+.scene-board-slots button[aria-disabled="true"] { opacity: .55; cursor: default; background: transparent; }
+@media (pointer: coarse) {
+  .scene-board-slots button { min-height: 44px; }
+  .scene-board-slots button:not(.scene-rotate) { min-width: 44px; }
+}
+.scene-object-toolbar .scene-remove:not(:disabled) {
+  color: #9a2826;
+  background: #fff2f0;
+  border-color: #edc5c0;
+}
+.scene-object-toolbar .scene-remove:not(:disabled):hover { background: #ffe2de; }
+.scene-object-toolbar .scene-delete-undo { background: #e5f4eb; border-color: #b3d9c2; }
+.scene-object-selection {
+  flex: 1 1 96px;
+  min-width: 56px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #4e635a;
+}
+.scene-object-selection[data-selected="true"] { font-weight: 700; color: #234a3c; }
+.scene-object-popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 8px;
+  width: min(100% - 16px, 336px);
+  max-height: min(285px, 48dvh);
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: #fff;
+  border: 1px solid #b8cdc1;
+  border-radius: 9px;
+  box-shadow: 0 10px 24px #193e3633;
+  padding: 8px;
+}
+.scene-object-popover.scene-actions { left: auto; right: 8px; width: min(100% - 16px, 260px); }
+.scene-object-popover p, .scene-object-popover h3 {
+  margin: 3px 3px 6px;
+  font-size: 12px;
+  color: #465d51;
+}
+.scene-object-popover h3 { font-weight: 750; color: #24473b; }
+.scene-object-list { margin: 0 0 6px; padding: 0; list-style: none; }
+.scene-object-list li {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 3px;
+  gap: 2px;
+}
+.scene-object-list li.is-selected {
+  background: #e5f3eb;
+  border-left: 3px solid #23836e;
+  border-radius: 4px;
+  padding-left: 0;
+}
+.scene-object-list .scene-object-check {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  min-height: 36px;
+  cursor: pointer;
+}
+.scene-object-list .scene-object-check input { margin: 0; width: 17px; height: 17px; accent-color: #1b785d; }
+.scene-object-list button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 0;
+  min-width: 0;
+  text-align: left;
+}
+.scene-object-list button span { overflow: hidden; text-overflow: ellipsis; }
+.scene-object-list button code, .scene-object-list .scene-object-flags { font-size: 10px; color: #52675e; }
+.scene-object-list .scene-object-flags { white-space: nowrap; }
+.scene-wire-swatch { flex: 0 0 16px; height: 4px; border-radius: 4px; }
+.scene-pick-choices { display: grid; gap: 7px; }
+.scene-pick-choices button { display: grid; gap: 3px; min-height: 44px; text-align: left; }
+.scene-pick-choices small { color: #50685f; overflow-wrap: anywhere; }
+.scene-actions-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.scene-actions-buttons button { border-color: #dae6de; }
+.scene-actions-buttons .scene-remove { grid-column: 1 / -1; }
+.scene-actions kbd { font: 11px var(--mono); font-weight: 700; }
+.scene-delete-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.scene-delete-actions button { min-height: 44px; }
+.scene-delete-actions .confirm-remove { color: white; background: #a22e2d; border-color: #a22e2d; }
+.scene-delete-summary { color: #87322d; font-weight: 650; }
+@media (max-width: 760px), (pointer: coarse) {
+  .scene-object-toolbar button,
+  .scene-object-list .scene-object-check { min-height: 44px; }
+  .scene-object-list .scene-object-check { flex-basis: 44px; }
+  .scene-object-selection { order: -1; flex: 0 0 100%; }
+  .scene-panel:has(.scene-object-toolbar) { min-height: 505px; }
+}

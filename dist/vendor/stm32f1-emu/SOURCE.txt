@@ -1,0 +1,9 @@
+stm32f1-emu 3.3.0, MIT
+https://github.com/danish9661/STM32F1-emulator/tree/8203ab1e67b898bbee8c94cf16fe6615a844f5cd
+https://registry.npmjs.org/stm32f1-emu/-/stm32f1-emu-3.3.0.tgz
+SHA-512 (npm integrity): Td/JRHGOTTZHjLxBNwbRgSQQ3jA2a9wF+BjwwPRuQdHy14M7DD7KEqd9VaZ406PK/LCBysJVZ6KX6zrt4q2rdw==
+
+LICENSE.txt and the two stm32_bluepill_wasm artifacts come unchanged from this release.
+worker.js is the lab's local adapter. It loads the WASM from the same origin and
+runs uploaded firmware inside a dedicated worker that the lab can terminate.
+The upstream CLI, networking servers and package dependencies are excluded.

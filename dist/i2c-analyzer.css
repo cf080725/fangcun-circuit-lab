@@ -1,0 +1,86 @@
+.i2c-analyzer-figure {
+  margin: 0;
+  min-width: 0;
+  color: #183b31;
+}
+
+.i2c-analyzer-graphic {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  border: 1px solid #cbded6;
+  border-radius: 8px;
+  background: #f7fbf9;
+}
+
+.i2c-analyzer-gutter {
+  position: relative;
+  border-right: 1px solid #cbded6;
+  border-radius: 7px 0 0 7px;
+  background: #edf5f0;
+  font: 700 11px/14px var(--mono, monospace);
+}
+
+.i2c-analyzer-gutter span {
+  position: absolute;
+  inset-inline: 0;
+  text-align: center;
+}
+
+.i2c-scl-label { top: 70px; color: #224e6c; }
+.i2c-sda-label { top: 108px; color: #17604d; }
+
+.i2c-analyzer-viewport {
+  min-width: 0;
+  overflow-x: auto;
+  border-radius: 0 7px 7px 0;
+}
+
+.i2c-analyzer-viewport:focus-visible {
+  outline: 2px solid #21694d;
+  outline-offset: -2px;
+}
+
+.i2c-analyzer-svg {
+  display: block;
+  max-width: none;
+  font-family: var(--mono, monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.i2c-analyzer-svg text { user-select: none; }
+.i2c-analyzer-svg path { fill: none; }
+.i2c-analyzer-svg .i2c-lane-guide { stroke: #d3e2db; stroke-dasharray: 3 3; }
+.i2c-analyzer-svg .i2c-byte-bg { fill: #e1efe7; fill-opacity: .62; stroke: transparent; }
+.i2c-analyzer-svg .i2c-byte-boundary { stroke: #c3d6cb; }
+.i2c-analyzer-svg .i2c-byte-heading { fill: #244739; font-size: 12px; font-weight: 700; }
+.i2c-analyzer-svg .i2c-ack-bg { fill: #d9d1ef; fill-opacity: .56; }
+.i2c-analyzer-svg .i2c-ack-label { fill: #4b396d; font-size: 9px; font-weight: 700; }
+.i2c-analyzer-svg .i2c-bit-label { fill: #3e5c50; font-size: 11px; }
+.i2c-analyzer-svg .i2c-marker-range { fill: #fae3b5; fill-opacity: .62; stroke: #ad813e; stroke-dasharray: 2 3; }
+.i2c-analyzer-svg .i2c-marker-label { fill: #754810; font-size: 11px; font-weight: 700; }
+.i2c-analyzer-svg .i2c-wave { stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.i2c-analyzer-svg .i2c-wave-scl { stroke: #29597b; }
+.i2c-analyzer-svg .i2c-wave-sda { stroke: #137159; }
+.i2c-analyzer-svg .i2c-time-axis { stroke: #a9c4b6; }
+.i2c-analyzer-svg .i2c-time-label { fill: #465f55; font-size: 10px; }
+.i2c-analyzer-svg [data-i2c-marker], .i2c-analyzer-svg .i2c-wave { pointer-events: none; }
+.i2c-analyzer-clickable [data-i2c-byte] { cursor: pointer; }
+.i2c-analyzer-clickable [data-i2c-byte]:hover .i2c-byte-bg { stroke: #598c73; }
+.i2c-analyzer-svg .i2c-byte-selected .i2c-byte-bg { fill: #cce9d8; fill-opacity: 1; stroke: #378264; stroke-width: 1.5; }
+.i2c-analyzer-clickable [data-i2c-byte]:focus-visible .i2c-byte-bg { stroke: #20463a; stroke-width: 2.5; }
+
+.i2c-analyzer-caption, .i2c-analyzer-selection, .i2c-analyzer-empty {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.i2c-analyzer-caption, .i2c-analyzer-empty { color: #4c6559; }
+.i2c-analyzer-selection { font-weight: 600; }
+
+@media (forced-colors: active) {
+  .i2c-analyzer-svg text { fill: CanvasText; }
+  .i2c-analyzer-svg path, .i2c-analyzer-svg .i2c-byte-selected .i2c-byte-bg { stroke: CanvasText; }
+  .i2c-analyzer-svg .i2c-byte-selected .i2c-byte-bg { stroke-width: 2; }
+}

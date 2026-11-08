@@ -1,0 +1,11 @@
+Wokwi rp2040js 1.4.1, MIT
+https://github.com/wokwi/rp2040js/tree/8693315df527adce8bf2bc315aeb4a1ca61c02a3
+https://registry.npmjs.org/rp2040js/-/rp2040js-1.4.1.tgz
+SHA-512 (npm integrity): Yzr5xG7ZwbtA50IYAU1k/oSoSyDAhPtT5qC/Q2eFApoLuAYE8DQbPIMPs/0kh4Ietd4P0OpKk3CIkfNqjcr56g==
+
+core.js bundles the npm dist/esm modules RP2040, SimulationClock, and FUNCTION_SIO
+with esbuild 0.25.12, --bundle --platform=browser --format=esm --target=es2022
+--legal-comments=inline. The unused getCurrentMicroseconds() function is removed
+from utils/time.js before bundling to exclude its dynamic Node require fallback.
+LICENSE.txt is unchanged. GDB/network tooling and demo assets are excluded.
+worker.js is the lab's local driver and has no remote network dependency.
