@@ -1,0 +1,66 @@
+.bp-chip {
+  --chip-border: #ceded7;
+  --chip-ink: #1b3630;
+  --chip-muted: #49635b;
+  min-width: 0;
+  color: var(--chip-ink);
+  font-size: .94rem;
+}
+
+.bp-chip [hidden] { display: none !important; }
+.bp-chip button, .bp-chip select {
+  min-height: 2.75rem;
+  padding: .48rem .75rem;
+  border: 1px solid var(--chip-border);
+  border-radius: .6rem;
+  background: #fff;
+  color: var(--chip-ink);
+  font: inherit;
+}
+.bp-chip button:hover:not(:disabled) { border-color: #538579; background: #eef7f2; }
+.bp-chip button:focus-visible, .bp-chip select:focus-visible, .bp-chip a:focus-visible {
+  outline: 3px solid #188273;
+  outline-offset: 2px;
+}
+.bp-chip button[aria-pressed="true"] { border-color: #0e7366; background: #e5f5ed; color: #075349; }
+.bp-chip button:disabled { opacity: .55; cursor: not-allowed; }
+.bp-chip-heading { display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.bp-chip-heading small { color: var(--chip-muted); font-size: .75rem; font-weight: 750; letter-spacing: .12em; }
+.bp-chip-heading h1 { margin: .2rem 0 .65rem; color: var(--chip-ink); font-size: clamp(1.4rem, 2.6vw, 2.1rem); letter-spacing: -.035em; }
+.bp-chip-layer-list { display: flex; flex-wrap: wrap; gap: .45rem; }
+.bp-chip-layer-list button { color: var(--chip-muted); }
+.bp-chip-layer-list strong { margin-inline-start: .3rem; }
+.bp-chip-layer-hint { margin: .7rem 0 .85rem; color: var(--chip-muted); line-height: 1.55; }
+.bp-chip-layout { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 1fr); gap: .9rem; align-items: start; }
+.bp-chip-model, .bp-chip-notes { min-width: 0; border: 1px solid var(--chip-border); border-radius: .85rem; background: #fff; overflow: hidden; }
+.bp-chip-stage { position: relative; min-height: 19rem; height: clamp(19rem, 50dvh, 35rem); background: #e9f1ee; }
+.bp-chip-stage canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.bp-chip-stage canvas:active { cursor: grabbing; }
+.bp-chip-no-webgl { display: grid; place-items: center; min-height: inherit; margin: 0; padding: 1rem; text-align: center; color: var(--chip-muted); }
+.bp-chip-camera { display: flex; justify-content: center; flex-wrap: wrap; gap: .4rem; padding: .55rem; border-top: 1px solid var(--chip-border); }
+.bp-chip-camera button { flex-shrink: 0; min-width: 2.75rem; }
+.bp-chip-panel { display: grid; gap: .55rem; padding: .9rem; }
+.bp-chip-panel h3 { margin: 0; color: var(--chip-ink); font-size: 1.05rem; }
+.bp-chip-panel p { margin: .2rem 0; color: var(--chip-muted); line-height: 1.5; }
+.bp-chip-specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .4rem; margin: .2rem 0; }
+.bp-chip-specs div { background: #edf5f1; border-radius: .45rem; padding: .5rem; }
+.bp-chip-specs dt { color: var(--chip-muted); font-size: .75rem; }
+.bp-chip-specs dd { margin: .2rem 0 0; color: var(--chip-ink); font-size: .9rem; font-weight: 700; }
+.bp-chip-panel label { color: var(--chip-muted); font-size: .86rem; }
+.bp-chip-panel select { width: 100%; }
+.bp-chip-pin-detail, .bp-chip-block-detail { padding: .7rem; background: #edf5f1; border-radius: .6rem; }
+.bp-chip-pin-detail strong, .bp-chip-block-detail strong { font-size: 1rem; }
+.bp-chip-blocks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; }
+.bp-chip-blocks button { display: flex; align-items: center; gap: .4rem; padding-inline: .48rem; text-align: start; font-size: .85rem; }
+.bp-chip-blocks button::before { content: ''; width: .62rem; height: .62rem; flex-shrink: 0; border-radius: .2rem; background: var(--block-color); }
+.bp-chip-example-pins { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: .45rem; }
+.bp-chip-example-pins button { font: 600 .82rem ui-monospace, monospace; }
+.bp-chip-sources { display: flex; flex-wrap: wrap; gap: .3rem .5rem; margin: 0; padding: .65rem .9rem; border-top: 1px solid var(--chip-border); color: var(--chip-muted); font-size: .78rem; }
+.bp-chip-sources a { color: #0b655a; text-underline-offset: .15em; }
+
+@media (max-width: 680px) {
+  .bp-chip-layout { grid-template-columns: minmax(0, 1fr); }
+  .bp-chip-stage { min-height: 15rem; height: clamp(15rem, 42dvh, 24rem); }
+  .bp-chip-camera button { padding-inline: .46rem; font-size: .82rem; }
+  .bp-chip-heading { gap: .25rem; }
+}

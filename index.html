@@ -1,0 +1,464 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f3f6f4"><meta name="description" content="在浏览器的 3D 电路实验台连接开发板和元件，编写程序，观察引脚、电流与波形。"><title>方寸回路 · 3D 电路实验台</title><link rel="icon" type="image/svg+xml" href="./assets/fangcun-icon.svg"><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./studio.css"><link rel="stylesheet" href="./resource-library.css"><link rel="stylesheet" href="./editor-tools.css"><link rel="stylesheet" href="./refinement.css?v=10.43.0"><link rel="stylesheet" href="./scene-objects.css?v=10.41.0"><link rel="stylesheet" href="./workbench-view.css?v=10.40.0"><link rel="stylesheet" href="./blue-pill-inspector.css?v=10.15.0"><link rel="stylesheet" href="./blue-pill-photo.css?v=10.15.0"><link rel="stylesheet" href="./blue-pill-board.css"><link rel="stylesheet" href="./blue-pill-chip.css?v=10.15.0"><link rel="stylesheet" href="./i2c-analyzer.css?v=10.20.0"><script type="importmap">{"imports":{"three":"./vendor/three.module.js","./app.js":"./app.js?v=10.43.0","./engine.js":"./engine.js?v=10.41.0","./content.js":"./content.js?v=10.15.0","./blue-pill-inspector.js":"./blue-pill-inspector.js?v=10.27.0","./blue-pill-board.js":"./blue-pill-board.js?v=10.27.0","./blue-pill-photo.js":"./blue-pill-photo.js?v=10.27.0","./blue-pill-chip.js":"./blue-pill-chip.js?v=10.27.0","./board-inspection-geometry.js":"./board-inspection-geometry.js?v=10.27.0","./chip-inspection-layout.js":"./chip-inspection-layout.js?v=10.27.0","./pico-inspection.js":"./pico-inspection.js?v=10.15.0","./pico-photo-inspection.js":"./pico-photo-inspection.js?v=10.15.0","./rp2040-chip-inspection.js":"./rp2040-chip-inspection.js?v=10.15.0","./avr-circuit-io.js":"./avr-circuit-io.js?v=10.19.0","./stm32-firmware-image.js":"./stm32-firmware-image.js?v=10.15.0","./rp2040-firmware-image.js":"./rp2040-firmware-image.js?v=10.15.0","./rp2040-firmware-runtime.js":"./rp2040-firmware-runtime.js?v=10.15.0","./bluepill-c-compiler.js":"./bluepill-c-compiler.js?v=10.25.0","./stm32-firmware-runtime.js":"./stm32-firmware-runtime.js?v=10.33.0","./avr-mega2560.js":"./avr-mega2560.js?v=10.15.0","./avr-adc.js":"./avr-adc.js?v=10.15.0","./avr-firmware-hex.js":"./avr-firmware-hex.js?v=10.15.0","./avr-twi.js":"./avr-twi.js?v=10.20.0","./avr-firmware-runtime.js":"./avr-firmware-runtime.js?v=10.19.0","./circuit.js":"./circuit.js?v=10.38.0","./i2c-analyzer-data.js":"./i2c-analyzer-data.js?v=10.22.0","./i2c-analyzer-view.js":"./i2c-analyzer-view.js?v=10.22.0","./i2c-analyzer-panel.js":"./i2c-analyzer-panel.js?v=10.20.0","./i2c-capture.js":"./i2c-capture.js?v=10.20.0","./i2c-trace.js":"./i2c-trace.js?v=10.22.0","./stm32-native-lessons.js":"./stm32-native-lessons.js?v=10.25.0","./i2c-temperature-display-lesson.js":"./i2c-temperature-display-lesson.js?v=10.23.0","./i2c-temperature-lesson.js":"./i2c-temperature-lesson.js?v=10.22.0","./mcp9808.js":"./mcp9808.js?v=10.18.0","./i2c-oled-lesson.js":"./i2c-oled-lesson.js?v=10.17.0","./i2c-oled-view.js":"./i2c-oled-view.js?v=10.18.0","./ssd1306.js":"./ssd1306.js?v=10.17.0","./ultrasonic.js":"./ultrasonic.js?v=10.15.0","./ultrasonic-lesson.js":"./ultrasonic-lesson.js?v=10.15.0","./ultrasonic-view.js":"./ultrasonic-view.js?v=10.15.0","./motor-bridge.js":"./motor-bridge.js?v=10.15.0","./motor-bridge-lesson.js":"./motor-bridge-lesson.js?v=10.15.0","./motor-stop-view.js":"./motor-stop-view.js?v=10.15.0","./sevenseg-lesson.js":"./sevenseg-lesson.js?v=10.15.0","./pwm-rc.js":"./pwm-rc.js?v=10.15.0","./pwm-rc-view.js":"./pwm-rc-view.js?v=10.15.0","./button-contact.js":"./button-contact.js?v=10.15.0","./button-bounce-lesson.js":"./button-bounce-lesson.js?v=10.15.0","./button-bounce-view.js":"./button-bounce-view.js?v=10.15.0","./board-profiles.js":"./board-profiles.js?v=10.41.0","./sim-profiles-ti.js":"./sim-profiles-ti.js?v=10.15.0","./sim-profiles-nxp.js":"./sim-profiles-nxp.js?v=10.15.0","./sim-profiles-wch.js":"./sim-profiles-wch.js?v=10.15.0","./catalog-data.js":"./catalog-data.js?v=10.37.0","./catalog-ui.js":"./catalog-ui.js?v=10.41.0","./project-export.js":"./project-export.js?v=10.15.0","./sim-profile-microbit.js":"./sim-profile-microbit.js?v=10.15.0","./sim-profiles-nordic-dk.js":"./sim-profiles-nordic-dk.js?v=10.15.0","./devkitc-header-exercise.js":"./devkitc-header-exercise.js?v=10.15.0","./fault-exercises.js":"./fault-exercises.js?v=10.15.0","./inspector-tools.js":"./inspector-tools.js?v=10.18.0","./learning-guide.js":"./learning-guide.js?v=10.25.0","./model-renderer.js":"./model-renderer.js?v=10.41.0","./breadboard-mount.js":"./breadboard-mount.js?v=10.15.0","./breadboard-blink.js":"./breadboard-blink.js?v=10.15.0","./d13-pullup-exercise.js":"./d13-pullup-exercise.js?v=10.15.0","./passive-breadboard-exercises.js":"./passive-breadboard-exercises.js?v=10.15.0","./source-hardware.js":"./source-hardware.js?v=10.37.0","./source-trace.js":"./source-trace.js?v=10.15.0","./source-probe-trace.js":"./source-probe-trace.js?v=10.15.0","./source-led-trace.js":"./source-led-trace.js?v=10.15.0","./source-trace-view.js":"./source-trace-view.js?v=10.15.0","./voltage-probes.js":"./voltage-probes.js?v=10.15.0","./pico-rp2040-model.js":"./pico-rp2040-model.js?v=10.15.0","./arduino-nano-model.js":"./arduino-nano-model.js?v=10.15.0","./nano-inspection.js":"./nano-inspection.js?v=10.15.0","./nano-photo-inspection.js":"./nano-photo-inspection.js?v=10.15.0","./atmega328p-tqfp-inspection.js":"./atmega328p-tqfp-inspection.js?v=10.15.0","./blue-pill-model.js":"./blue-pill-model.js?v=10.15.0","./uno-r3-model.js":"./uno-r3-model.js?v=10.15.0","./board-glb.js":"./board-glb.js?v=10.41.0","./potentiometer-model.js":"./potentiometer-model.js?v=10.15.0","./uno-r3-inspection.js":"./uno-r3-inspection.js?v=10.15.0","./esp32-devkitc-model.js":"./esp32-devkitc-model.js?v=10.15.0","./esp32-devkitc-inspection.js":"./esp32-devkitc-inspection.js?v=10.15.0","./sim-profiles-esp.js":"./sim-profiles-esp.js?v=10.15.0","./breadboard-wiring.js":"./breadboard-wiring.js?v=10.15.0","./mount-placement-dialog.js":"./mount-placement-dialog.js?v=10.30.0","./mount-placement.js":"./mount-placement.js?v=10.40.0","./part-mount.js":"./part-mount.js?v=10.36.0","./project-import.js":"./project-import.js?v=10.37.0","./scene-objects.js":"./scene-objects.js?v=10.15.0","./workbench.js":"./workbench.js?v=10.41.0","./workbench2d.js":"./workbench2d.js?v=10.41.0","./nucleo-f103rb-model.js":"./nucleo-f103rb-model.js?v=10.27.0","./nucleo-f103rb-geometry.js":"./nucleo-f103rb-geometry.js?v=10.27.0","./nucleo-f103rb-chip.js":"./nucleo-f103rb-chip.js?v=10.27.0","./nucleo-f103rb-inspection.js":"./nucleo-f103rb-inspection.js?v=10.27.0","./encoder-lesson.js":"./encoder-lesson.js?v=10.28.0","./encoder-pec11r-model.js":"./encoder-pec11r-model.js?v=10.28.0","./rotary-encoder.js":"./rotary-encoder.js?v=10.28.0","./analog-joystick.js":"./analog-joystick.js?v=10.29.0","./joystick-lesson.js":"./joystick-lesson.js?v=10.29.0","./joystick-sparkfun-model.js":"./joystick-sparkfun-model.js?v=10.29.0","./rgb-led.js":"./rgb-led.js?v=10.31.0","./rgbled-lesson.js":"./rgbled-lesson.js?v=10.31.0","./rgbled-kingbright-model.js":"./rgbled-kingbright-model.js?v=10.31.0","./servo-native-lesson.js":"./servo-native-lesson.js?v=10.32.0","./servo-native-view.js":"./servo-native-view.js?v=10.32.0","./grove-relay.js":"./grove-relay.js?v=10.33.0","./grove-relay-model.js":"./grove-relay-model.js?v=10.33.0","./relay-native-lesson.js":"./relay-native-lesson.js?v=10.33.0","./relay-native-view.js":"./relay-native-view.js?v=10.33.0","./native-observation.js":"./native-observation.js?v=10.38.0","./native-observation-panel.js":"./native-observation-panel.js?v=10.35.0","./dip-switch-lesson.js":"./dip-switch-lesson.js?v=10.36.0","./photoresistor-lesson.js":"./photoresistor-lesson.js?v=10.37.0","./pdv-photocell.js":"./pdv-photocell.js?v=10.37.0","./native-pwm-scope.js":"./native-pwm-scope.js?v=10.38.0"}}</script></head><body data-audience="beginner">
+<section id="entryScreen" class="entry-screen" aria-labelledby="entryTitle">
+  <div class="entry-brand"><span><strong><img class="brand-wordmark" src="./assets/fangcun-wordmark.svg" alt="方寸回路" width="108" height="26"></strong><small>3D 电路实验台</small></span><span class="entry-status"><i></i> 在浏览器里，把想法接成电路</span></div>
+  <div class="entry-main"><div class="entry-eyebrow">从第一盏灯，到你的下一个作品</div><h1 id="entryTitle">选择你的工作方式<span>.</span></h1><p class="entry-intro">同一张实验台，两种节奏。随时切换，代码和接线都会保留。</p>
+  <div class="mode-cards">
+    <button class="mode-card beginner-card" id="enterBeginner"><span class="mode-card-top"><span class="mode-icon">✦</span><span class="mode-tag">第一次接触硬件，选这里</span></span><h2>小白版</h2><p>一步一步，先把现象看懂。</p><div class="mode-preview beginner-preview" aria-hidden="true"><div class="preview-step"><b>1</b><i></i><i></i></div><div class="preview-board"><i></i><span class="preview-led"></span><span class="preview-wire"></span></div><div class="preview-code"><i></i><i></i><i></i></div></div><ul><li>从预接线实验开始，跟着引导操作</li><li>每行代码都有白话，错误给出修改方向</li><li>先学两个关联知识点，再动手验证</li></ul><span class="mode-cta">带我开始 <span>↗</span></span></button>
+    <button class="mode-card pro-card" id="enterPro"><span class="mode-card-top"><span class="mode-icon">⌘</span><span class="mode-tag">已有基础，直接进入工作区</span></span><h2>专业版</h2><p>工具就位，让注意力留在作品上。</p><div class="mode-preview pro-preview" aria-hidden="true"><div class="preview-board"><i></i><span class="preview-led"></span></div><div class="preview-code"><i></i><i></i><i></i><i></i><i></i></div><div class="preview-wave"><i></i></div></div><ul><li>紧凑布局，代码与实验台始终并排</li><li>引脚、波形、串口与诊断集中查看</li><li>多板切换、工程导入、IDE 接入导出</li></ul><span class="mode-cta">进入工作区 <span>↗</span></span></button>
+  </div><div class="entry-bottom"><span id="entryCatalogStats">多板目录 · 元件索引 · 中英文资料</span><span>源码行为仿真 · Blue Pill、NUCLEO-F103RB、经典 Pico 和三款 Arduino 支持原生固件</span></div></div>
+</section>
+<div id="appFrame" class="app-frame" hidden>
+<header class="app-header"><a class="brand" href="#lab" aria-label="方寸回路"><span><strong><img class="brand-wordmark" src="./assets/fangcun-wordmark.svg" alt="方寸回路" width="108" height="26"></strong><small>3D 电路实验台</small></span></a><div class="workspace-breadcrumb"><span>工作空间</span><b>实验台</b></div><div class="header-actions"><span class="save-state" id="saveState">已在此浏览器保存</span><button class="button subtle mode-switch" id="modeSwitchButton">✦ 小白版 <span>切换</span></button><button class="icon-button" id="tourButton" aria-label="认识这个工作区" title="认识这个工作区">ⓘ</button><button class="icon-button" id="helpButton" aria-label="仿真范围与使用方法" title="仿真范围与使用方法">?</button></div></header>
+<div class="app-shell">
+<nav class="side-rail" aria-label="主导航"><button class="nav-item active" data-page="lab"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="5" y="5" width="14" height="14" rx="3"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4"/><path d="M9 9h6v6H9z"/></svg></span>实验台</button><button class="nav-item" data-page="blue-pill"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 6h18v12H3zM12 6v12M6 9h3v6H6zM15 10l3-2v6l-3 2z"/></svg></span>实物对照</button><button class="rail-market" id="marketButton"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 9h18l-2-6H5zM4 9v12h16V9M8 21v-7h8v7"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg></span>元件商城</button><button class="nav-item" data-page="library"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 4h7a3 3 0 0 1 3 3v14a4 4 0 0 0-4-2H3zM13 7a3 3 0 0 1 3-3h5v15h-5a4 4 0 0 0-3 2"/><path d="M6 8h4m-4 4h4m6-4h2m-2 4h2"/></svg></span>资料库</button><button class="nav-item" data-page="learn"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m12 3 10 5-10 5L2 8zM6 10v7c4 3 8 3 12 0v-7M22 8v8"/></svg></span>跟着学</button><button class="nav-item" data-page="glossary"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m8 5-5 7 5 7m8-14 5 7-5 7m-3-16-2 18"/></svg></span>库函数</button><button class="nav-item" data-page="faults"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m12 3 10 18H2zM12 9v5m0 3v.1"/></svg></span>查故障</button><div class="rail-spacer"></div><button id="openGuideButton"><span aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 2-3 4m0 3v.1"/></svg></span>操作指南</button></nav>
+<aside id="catalogDrawer" class="catalog-drawer" hidden aria-label="元件与开发板商城">
+ <div class="drawer-heading"><div><span class="eyebrow">硬件目录 / 选型与实验</span><h2>开发板与元件</h2></div><button class="icon-button" id="closeCatalog" aria-label="关闭元件商城">×</button></div>
+ <div class="catalog-tabs"><button data-catalog-tab="boards" class="active">开发板 <small id="boardCount"></small></button><button data-catalog-tab="parts">元件 <small id="partCount"></small></button><button data-catalog-tab="saved">已选清单 <small id="bomCount">0</small></button></div>
+ <div class="catalog-search-wrap"><span>⌕</span><input id="catalogSearch" aria-label="搜索元件或开发板" placeholder="名称、型号、接口或用途…"><button class="text-button" id="catalogClear" aria-label="清空元件搜索">×</button></div>
+ <div class="catalog-filter-row"><select id="catalogCategory" aria-label="硬件分类"><option value="all">全部系列</option></select><select id="catalogSupport" aria-label="硬件支持范围"><option value="all">全部支持范围</option><option value="simulate">可运行仿真</option><option value="reference">资料与选型</option></select></div>
+ <div id="catalogQuickFilters" class="catalog-quick"></div><div class="catalog-result-line"><span id="catalogResultCount"></span><button class="text-button" id="catalogGuideButton">怎么选？ ↗</button></div><div id="catalogItems" class="catalog-items"></div>
+ <div class="catalog-footer"><span>已核验原始来源 · 按能力选择</span><button class="text-button" id="exportBOMButton">导出清单 ↓</button></div>
+</aside>
+<main id="mainContent">
+<section id="page-lab" class="page active">
+<div class="workspace-topbar"><div class="workspace-title"><span class="eyebrow">选板 · 接线 · 写程序 · 看现象</span><h1>硬件实验台<span>.</span></h1><button type="button" id="labCompareButton" class="button primary-light" data-go="blue-pill">实物对照 ↗</button></div><div class="project-actions"><button class="button subtle" id="undoImportButton" hidden>撤回导入</button><button class="button subtle" id="importButton">↥ 导入工程</button><button class="button subtle" id="exportButton">保存工程 ↓</button><button class="button primary-light" id="ideExportButton">导出到 IDE ↗</button><button id="exportCodeButton" hidden>下载源码</button></div></div>
+<div class="beginner-guide" id="beginnerGuide"><span class="guide-bulb">✦</span><div><strong id="guideTitle">第一次来？先让一盏灯亮起来。</strong><p id="guideText">电路已经接好。点击运行，看 LED 的变化；再改一处代码，观察结果。</p></div><div class="guide-steps"><button data-guide-step="0" class="active"><b>1</b>看接线</button><button data-guide-step="1"><b>2</b>看现象</button><button data-guide-step="2"><b>3</b>动手改</button></div><button class="text-button" id="hideGuideButton" aria-label="收起入门提示">×</button></div>
+<div class="runbar"><button class="board-selector" id="boardSelectButton" title="在商城选择开发板"><span class="board-indicator"></span><span><small>当前开发板</small><strong id="currentBoardName">STM32F103C8T6</strong></span><span>⌄</span></button><div class="example-picker"><label for="exampleSelect">实验</label><select id="exampleSelect" aria-label="当前实验"></select></div><button type="button" id="firmwareModeButton" class="button" hidden>原生固件</button><div class="run-actions"><button id="runButton" class="button primary">▶ 运行</button><button id="stepButton" class="button" title="只执行一步，观察当前代码">单步</button><button id="resetButton" class="button" title="复位程序，保留接线和代码">程序复位</button><label class="speed-label"><select id="speedSelect" aria-label="仿真速度"><option value="0.25">0.25×</option><option value="1" selected>1×</option><option value="4">4×</option></select></label></div><div class="run-status"><span class="status-dot" id="statusDot"></span><span id="runStatus">准备就绪</span><code id="virtualTime">0.000 s</code><button class="scope-tag" id="scopeButton" aria-label="当前仿真能力范围">ⓘ</button></div></div>
+<div class="mobile-workspace-tabs"><button data-mobile-pane="scene" class="active">观察实验台</button><button data-mobile-pane="editor">编写代码</button></div>
+<div class="studio-grid" id="studioGrid">
+<div class="scene-stack" id="sceneStack"><section class="scene-panel panel" aria-label="观察实验台">
+ <div class="board-workflow" role="group" aria-label="开发板摆放与控制">
+  <button type="button" class="button primary" id="mountBoardButton" aria-describedby="boardMountStatus">插入面包板</button>
+  <button type="button" class="button" id="rotateBoardButton" aria-keyshortcuts="R Shift+R" title="选中开发板并聚焦画布后可按 R 或 Shift+R">开发板转 90° · R</button>
+  <button type="button" class="button" id="mountSlotButton" hidden>按行列选孔</button>
+  <button type="button" class="button" id="mountPinMapButton" hidden>查插装引脚</button>
+  <button type="button" class="button primary-light" id="unlockBoardButton" hidden>解锁开发板</button>
+  <button type="button" class="button" id="mountPracticeButton" hidden>试做直插点灯</button>
+  <button type="button" class="button" id="boardUserButton" aria-label="按住板载 B1" aria-pressed="false" title="点击按住，再点击松开" hidden>B1 按住</button>
+  <button type="button" class="button" id="boardHardwareResetButton" title="重启已经应用的程序，保留草稿与接线" hidden>板载复位</button>
+  <button type="button" class="button primary-light" id="compareD13Board" hidden></button>
+  <span id="boardMountStatus" role="status"></span>
+  <span id="boardHardwareResetStatus" class="scene-screen-reader" role="status" aria-live="polite" aria-atomic="true"></span>
+ </div>
+ <div class="scene-toolbar">
+  <div class="segmented" id="toolModes" role="group" aria-label="实验台操作">
+   <button data-mode="orbit" class="active" aria-pressed="true" title="拖板身可插入、换孔或拔下。双击引脚开始接线。">选择</button>
+   <button data-mode="wire" aria-pressed="false" title="点击两个引脚，或从一个引脚拖到另一个">接线</button>
+   <button data-mode="move" aria-pressed="false" title="拖板身换孔，拖面包板移动整组。拖着开发板或散件时按 R 转向。">移动</button>
+   <button type="button" id="probeToggle" aria-expanded="false" aria-controls="probePanel">万用表</button>
+  </div>
+  <div class="view-actions" role="group" aria-label="视图与吸附">
+   <button class="text-button active" data-scene-view="3d" aria-pressed="true">3D 实验台</button>
+   <button class="text-button" data-scene-view="2d" aria-pressed="false">二维接线图</button>
+   <button class="text-button" id="snapPartButton" aria-pressed="true" title="拖动时将第一个引脚对齐邻近的面包板孔。按住 Alt 暂时停用，接线需手动确认。">散件吸附</button>
+  </div>
+  <div class="scene-camera-actions" role="group" aria-label="镜头控制">
+   <button type="button" class="scene-camera-button" id="sceneViewBoard" aria-controls="scene" title="让镜头对准开发板">看开发板</button>
+   <button type="button" class="scene-camera-button" id="scenePanView" aria-controls="scene" aria-pressed="false" title="平移镜头。再点一次回到编辑。">平移镜头</button>
+   <button type="button" class="scene-camera-button" id="sceneOrbitView" aria-controls="scene" aria-pressed="false" title="绕画面中心转动视角。再点一次回到编辑。">环绕视角</button>
+   <button type="button" class="scene-camera-button" id="homeViewButton" aria-label="恢复实验台总览" title="恢复实验台总览">总览</button>
+   <button type="button" id="topViewButton" hidden>俯视</button>
+   <details class="scene-camera-help">
+    <summary aria-label="镜头与旋转帮助">帮助</summary>
+    <div>
+     <p class="scene-camera-in-3d">拖空白处环绕，右键拖动平移，滚轮缩放。触屏用双指平移或捏合缩放。</p>
+     <p class="scene-camera-in-2d">拖空白处平移，滚轮缩放。触屏用双指平移或捏合缩放。</p>
+     <p>点亮镜头工具后，拖动元件所在区域也只会移动镜头。再点一次回到编辑。</p>
+     <p>拖着开发板或散件时按 <kbd>R</kbd> 转 90°，<kbd>Shift + R</kbd> 反向。</p>
+     <p>要拔板，拖住板身移到面包板旁的空桌面，出现放置提示后松手。</p>
+    </div>
+   </details>
+  </div>
+ </div>
+ <p id="sceneRenderNotice" class="scene-renderer-note" role="status" hidden></p>
+ <div class="scene-object-toolbar" id="sceneObjectToolbar" role="group" aria-label="实验台元件操作">
+  <button type="button" id="sceneObjectsToggle" aria-expanded="false" aria-controls="sceneObjectsPopover">元件 / 导线 <small id="sceneObjectsCount"></small></button>
+  <button type="button" id="sceneFocusBoard" class="scene-rotate" aria-controls="scene" aria-pressed="false" title="选中开发板并聚焦画布。按 R 转 90°，Shift+R 反向。">选开发板</button>
+  <span class="scene-object-selection" id="sceneObjectSelection" aria-live="polite">点击模型或打开元件列表</span>
+  <button type="button" id="sceneDeleteUndo" class="scene-delete-undo" hidden>↶ 撤销删除</button>
+  <button type="button" id="sceneActionsToggle" aria-expanded="false" aria-controls="sceneActionsPopover">更多</button>
+  <div class="scene-board-slots" id="sceneBoardSlots" role="group" aria-label="开发板孔位" hidden>
+   <button type="button" id="sceneBoardLeft" aria-label="开发板向左换一列" title="向小列号换一列 · ←" hidden>←</button>
+   <button type="button" id="sceneMoveBoard" class="scene-rotate" aria-expanded="false" aria-controls="boardHolePicker">换孔位 · 点孔</button>
+   <button type="button" id="sceneBoardRight" aria-label="开发板向右换一列" title="向大列号换一列 · →" hidden>→</button>
+  </div>
+  <button type="button" id="sceneRotateQuick" class="scene-rotate" title="先选中一个元件" aria-label="旋转所选元件 90°" disabled>↻ 旋转 90°</button>
+  <button type="button" id="partMountButton" class="scene-rotate" aria-controls="partPlacementBar" aria-expanded="false" hidden>把元件插入面包板</button>
+  <button type="button" id="sceneDeletePart" class="scene-remove" title="Delete / Backspace" aria-keyshortcuts="Delete Backspace" disabled>删除元件</button>
+  <section id="sceneObjectsPopover" class="scene-object-popover" aria-label="实验台物件与导线" hidden>
+   <p>点名称选中物件。导线按两端引脚列出，重叠时也能选。</p>
+   <h3 id="sceneBaseObjectsTitle">实验台底座</h3><ul id="sceneBaseObjects" class="scene-object-list" aria-labelledby="sceneBaseObjectsTitle"></ul>
+   <h3 id="sceneComponentsTitle">可编辑元件</h3><ul id="sceneComponents" class="scene-object-list" aria-labelledby="sceneComponentsTitle"></ul>
+   <h3 id="sceneWiresTitle">导线</h3><ul id="sceneWires" class="scene-object-list" aria-labelledby="sceneWiresTitle"></ul>
+  </section>
+  <section id="sceneActionsPopover" class="scene-object-popover scene-actions" aria-label="元件工具和快捷键" hidden>
+   <div class="scene-actions-buttons">
+    <button type="button" id="sceneRotatePart">旋转 90°</button><button type="button" id="sceneCopyPart">复制</button>
+    <button type="button" id="sceneLockPart">锁定</button><button type="button" id="sceneHidePart">隐藏</button>
+    <button type="button" id="sceneMenuDelete" class="scene-remove" hidden>删除元件</button>
+   </div>
+   <p>在画布内选中物件，或拖着开发板或散件时，按 <kbd>R</kbd> 转 90°，<kbd>Shift + R</kbd> 反向。开发板可拖动换孔，也可点孔预览新位置。</p>
+   <p><kbd>Shift</kbd> + 点击多选 · <kbd>Delete</kbd> / <kbd>Backspace</kbd> 删除 · <kbd>Ctrl/⌘ + Z</kbd> 撤销。</p>
+   <p>锁定保护位置、方向与删除。隐藏仅改变视图，元件仍参与仿真。</p>
+  </section>
+ </div>
+ <div id="boardHolePicker" class="part-placement-bar" role="group" aria-labelledby="boardHolePickerTitle" hidden>
+  <div class="part-placement-copy"><strong id="boardHolePickerTitle">换到新孔位</strong><span id="boardHolePickerStatus" role="status" aria-atomic="true"></span></div>
+  <div class="part-placement-actions"><button type="button" class="button" id="boardHoleManual">按行列选孔</button><button type="button" class="button" id="boardHoleCancel">取消 · Esc</button><button type="button" class="button primary" id="boardHoleConfirm" disabled>确认换孔位</button></div>
+ </div>
+ <div id="partPlacementBar" class="part-placement-bar" role="group" aria-labelledby="partPlacementTitle" hidden>
+  <div class="part-placement-copy"><strong id="partPlacementTitle">选插孔</strong><span id="partPlacementStatus" role="status" aria-atomic="true"></span></div>
+  <div class="part-placement-actions"><button type="button" class="button" id="partPlacementRotate" title="旋转插脚 · R / Shift+R" aria-keyshortcuts="R Shift+R">0°</button><button type="button" class="button" id="partPlacementManual">按行列选孔</button><button type="button" class="button" id="partPlacementCancel">取消</button><button type="button" class="button primary" id="partPlacementConfirm" disabled>插入并接通</button></div>
+ </div>
+ <section id="probePanel" class="probe-panel" aria-label="万用表 · 直流电压" hidden>
+  <div class="probe-display">
+   <div><strong>万用表</strong><small>直流电压 · 红 − 黑</small></div>
+   <output id="probeValue" aria-label="红表笔相对黑表笔的电压" aria-live="off">— V</output>
+  </div>
+  <div class="probe-actions">
+   <button id="probeRed" type="button" class="button probe-terminal" aria-pressed="false"><span class="probe-icon" aria-hidden="true">+</span><span id="probeRedPoint">红表笔 · 未放置</span></button>
+   <button id="probeBlack" type="button" class="button probe-terminal" aria-pressed="false"><span class="probe-icon" aria-hidden="true">−</span><span id="probeBlackPoint">黑表笔 · 未放置</span></button>
+   <button id="probeSwap" type="button" class="button" disabled>交换表笔</button>
+   <button id="probeClear" type="button" class="button" disabled>取下表笔</button>
+   <button id="probeScopeButton" type="button" class="button primary-light" aria-controls="sourceTraceMonitor" title="放好两支表笔后可记录两点电压差" disabled>用表笔看波形</button>
+  </div>
+  <p id="probeHint" role="status">选择红表笔和黑表笔的测点。</p>
+ </section>
+ <div id="scene" class="scene" aria-label="交互电路实验台"><div class="scene-loading" id="sceneLoading">正在准备你的实验台…</div><output id="boardDropCue" role="status" hidden></output></div>
+ <div id="pinReadout" class="pin-readout" aria-label="端点测量" hidden><strong id="pinReadoutName" aria-live="polite"></strong><output id="pinReadoutVoltage" aria-live="off"></output><span id="pinReadoutRoute"></span><span id="pinSocketStatus"></span><button type="button" class="button" id="startPinWire" hidden>从这里接线</button><button type="button" class="text-button" id="clearPinReadout" aria-label="关闭测量" title="关闭测量">×</button></div>
+ <div class="scene-overlay"><span class="scene-label" id="boardSceneLabel">STM32 / 方寸回路</span><span id="connectionHint">拖动元件摆放 · 双击起点引脚后点击终点 · 滚轮缩放</span></div>
+ <details class="sonar-target-panel" id="ultrasonicTargetPanel" open hidden>
+  <summary>超声波反射目标 <span id="sonarTargetSummary">—</span></summary>
+  <div class="sonar-target-body">
+   <div id="sonarTargetDiagram" class="sonar-target-diagram"></div>
+   <div class="sonar-target-controls">
+    <label for="sonarDistance"><span>目标距离</span><output id="sonarDistanceValue" for="sonarDistance">—</output></label>
+    <input type="range" id="sonarDistance" min="0" max="450" value="80" step="1">
+    <label for="sonarBearing"><span>目标偏角</span><output id="sonarBearingValue" for="sonarBearing">—</output></label>
+    <input type="range" id="sonarBearing" min="-30" max="30" value="0" step="1">
+    <label class="sonar-target-present"><input type="checkbox" id="sonarTargetPresent" checked>保留反射目标</label>
+   </div>
+  </div>
+  <p>拖动圆点，或用滑块调整。距离和偏角以探头正前方为参考，下一次触发时生效。</p>
+ </details>
+ <div class="wire-actions"><button class="text-button" id="undoCircuitButton" title="撤销上一步接线或元件操作" disabled>↶ 撤销</button><button class="text-button" id="redoCircuitButton" aria-label="重做上一步操作" title="重做上一步操作" disabled>↷</button><button class="text-button" id="cancelWireButton" hidden>取消接线</button><button class="text-button" id="deleteWireButton" hidden>删除选中导线</button><span class="wire-actions-spacer"></span><button class="text-button" id="netButton">接线表 ↗</button><button class="text-button" id="addHardwareButton">＋ 添加硬件</button></div>
+ <div class="power-bar"><label class="switch-label"><input type="checkbox" id="powerSwitch" checked><span>供电</span></label><span class="power-value" id="boardLogicVoltage">3.3 V</span><label class="switch-label boot" id="bootLabel"><input type="checkbox" id="bootSwitch"><span>BOOT0 = 1</span></label><button class="text-button" id="soundButton">声音：关</button><button class="text-button" id="faultInjectButton">故障练习</button><button class="text-button" id="clearWiresButton" title="清空手动添加的跳线，支持撤销">清空跳线</button></div>
+</section>
+<aside class="inspector panel" id="inspectorPanel"><div class="panel-title"><strong id="inspectorTitle">这一刻，在发生什么</strong><button class="text-button" id="deselectButton">回到代码讲解</button><button class="text-button" id="inspectorToggle" aria-label="折叠或展开元件属性">⌃</button></div><div id="inspectorBody"></div><div class="diagnostics-preview" id="diagnosticsPreview"></div></aside>
+<div class="learning-strip"><span class="mini-chip">实验目标</span><span id="experimentGoal">观察输出电平与 LED 发光的关系。</span><button class="text-button beginner-only" id="reopenGuideButton">入门提示</button><button class="text-button" id="lessonButton">本次实验卡 ↗</button></div>
+</div>
+<div class="workspace-divider" id="workspaceDivider" role="separator" aria-orientation="vertical" aria-controls="sceneStack editorStack" aria-label="调整代码与实验台宽度" aria-valuemin="35" aria-valuemax="65" aria-valuenow="48" tabindex="0"></div>
+<div class="editor-stack" id="editorStack"><section class="editor-panel panel" aria-label="编写代码">
+ <section id="firmwarePanel" class="firmware-panel" aria-labelledby="firmwareTitle" hidden>
+  <div class="firmware-header"><div><span class="eyebrow" id="firmwareTarget">ATmega328P</span><h2 id="firmwareTitle" tabindex="-1">原生固件</h2></div><span class="mini-chip" id="firmwareCore">原生指令</span><button type="button" class="button" id="nativeObservationOpen" aria-controls="monitor-native-compare" hidden>固件前后对照</button><button type="button" class="button" id="temperatureFirmwareDetails" aria-expanded="false" aria-controls="firmwareFile firmwareProgress firmwareControls" hidden>展开固件详情</button></div>
+  <div class="firmware-file" id="firmwareFile"><strong id="firmwareName"></strong><span id="firmwareSize"></span></div>
+  <p>点击运行观察电路，或用单步执行一条指令。程序复位会从复位向量重新开始。</p>
+  <dl class="firmware-progress" id="firmwareProgress"><div><dt>下一条指令地址</dt><dd id="firmwarePC">0x0000</dd></div><div><dt id="firmwareCyclesLabel">已执行时钟周期</dt><dd id="firmwareCycles">0</dd></div><div id="firmwareAdcMeter" hidden><dt id="firmwareAdcLabel">最近一次 ADC 读数</dt><dd id="firmwareAdcValue">—</dd></div><div id="firmwarePwmMeter" hidden><dt id="firmwarePwmLabel">PWM 输出</dt><dd id="firmwarePwmValue">—</dd></div></dl>
+  <p class="firmware-state" id="firmwareState" role="status"></p>
+  <div class="firmware-error" id="firmwareError" role="alert" hidden></div>
+  <div class="project-actions" id="firmwareControls"><button type="button" class="button" id="firmwareChange">更换固件</button><button type="button" class="button" id="firmwareDownload">下载 HEX</button><button type="button" class="button" id="firmwareExit">返回源码</button></div>
+  <details class="details"><summary>支持哪些外设？</summary><p id="firmwareSupport"></p></details>
+ </section>
+ <div class="editor-heading"><span><b>代码</b><small id="editorDialect">C · 标准外设库</small></span><div><button class="text-button" id="checkCodeButton">✓ 检查</button><button class="text-button" id="completeButton" title="Ctrl + Space 自动补全">补全</button><button class="text-button active" id="annotationsButton" aria-pressed="true">逐行注释</button><button class="text-button" id="formatButton">缩进</button></div></div>
+ <section id="sourceHardwareBar" class="source-hardware-bar" data-state="unapplied" aria-label="代码与硬件">
+  <div class="source-hardware-copy">
+   <strong id="sourceHardwareState" role="status" aria-atomic="true">源代码尚未应用</strong>
+   <p id="sourceHardwareReading">运行后在这里看引脚电压和最近写入。</p>
+   <p id="sourceHardwareLight" hidden></p>
+   <div id="sourceWaitPanel" class="source-wait-panel" hidden>
+    <label id="sourceWaitLabel" for="sourceWaitProgress">程序等待</label>
+    <progress id="sourceWaitProgress" max="1" value="0" aria-describedby="sourceWaitRemaining"></progress>
+    <span id="sourceWaitRemaining"></span>
+   </div>
+  </div>
+  <div class="source-hardware-actions">
+   <button type="button" class="button primary" id="applySourceButton" aria-describedby="sourceHardwareState">应用代码并运行</button>
+   <button type="button" class="button" id="sourceHardwareLine" hidden>查看代码行</button>
+   <button type="button" class="button" id="sourceHardwareLocate" hidden>定位引脚</button>
+   <button type="button" class="button" id="openSourceTrace" aria-controls="sourceHardwareTrace" hidden>查看波形对照</button>
+   <button type="button" class="button" id="openSourceLedTrace" aria-controls="sourceHardwareTrace" hidden>查看 LED 电流</button>
+  </div>
+  <details id="sourceHardwareCompare" class="source-hardware-compare" hidden open>
+   <summary>应用前后仿真读数</summary>
+   <div class="source-hardware-samples">
+    <p id="sourceHardwareBefore"></p>
+    <p id="sourceHardwareAfter"></p>
+   </div>
+   <small id="sourceHardwareCompareNote"></small>
+  </details>
+ </section>
+ <section id="sevenSegmentFeedback" class="pwm-rc-panel seven-segment-panel" aria-labelledby="sevenSegmentTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="sevenSegmentTitle">数码管各段电流</h3><strong id="sevenSegmentState">暂无读数</strong><button type="button" class="text-button" id="focusSevenSegment">在台上放大</button></div>
+  <div id="sevenSegmentCurrents" class="seven-segment-currents" role="group" aria-label="点一段，在实验台定位它的引脚"></div>
+  <div id="sevenSegmentCode" class="pwm-rc-actions" hidden><button type="button" class="button" id="locateDisplayDigit">定位显示数字</button><button type="button" class="button" id="locateDisplayDecimal">定位小数点</button></div>
+ </section>
+ <section id="pwmRcPanel" class="pwm-rc-panel" aria-labelledby="pwmRcTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="pwmRcTitle">PWM 低通滤波</h3><span id="pwmRcInput">等待程序输出</span></div>
+  <dl class="pwm-rc-readings"><div><dt>当前电容电压</dt><dd id="pwmRcVoltage">—</dd></div><div><dt>稳态均值</dt><dd id="pwmRcMean">—</dd></div><div><dt>纹波峰峰值</dt><dd id="pwmRcRipple">—</dd></div></dl>
+  <div class="pwm-rc-actions"><button type="button" class="button" id="locateRcDuty" hidden>定位占空比</button><button type="button" class="button" id="locateRcFrequency" hidden>定位频率</button><button type="button" class="button" id="openPwmRcScope" hidden>看一周期</button></div>
+ </section>
+ <section id="servoFeedback" class="servo-feedback" aria-labelledby="servoFeedbackTitle" hidden>
+  <div class="servo-feedback-heading"><h3 id="servoFeedbackTitle">HS-55 舵臂位置</h3><span id="servoFeedbackStatus"></span></div>
+  <dl class="servo-feedback-readings"><div><dt>舵机 SIG</dt><dd id="servoSignal">—</dd></div><div><dt>目标角度</dt><dd id="servoTarget">—</dd></div><div><dt>当前角度</dt><dd id="servoAngle">—</dd></div></dl>
+  <div class="servo-angle-scale" aria-hidden="true"><i id="servoAngleTarget" hidden></i><b id="servoAngleCurrent"></b></div>
+  <div class="servo-scale-labels" aria-hidden="true"><span>−60°</span><span>中位 0°</span><span>+60°</span></div>
+  <div class="servo-feedback-actions"><button type="button" class="button" id="locateServoCommand" hidden>定位脉宽设置</button><button type="button" class="text-button" id="locateServoPart">在台上定位舵机</button></div>
+ </section>
+ <section id="motorBridgePanel" class="pwm-rc-panel motor-bridge-panel" aria-labelledby="motorBridgeTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="motorBridgeTitle">DRV8833 · 电机 A 通道</h3><strong id="motorBridgeMode">等待驱动信号</strong></div>
+  <dl class="pwm-rc-readings motor-bridge-readings"><div><dt>AIN1 / AIN2</dt><dd id="motorBridgeInputs">—</dd></div><div><dt>当前转速</dt><dd id="motorBridgeRpm">—</dd></div><div><dt>绕组电流</dt><dd id="motorBridgeCurrent">—</dd></div><div><dt>电机端电压</dt><dd id="motorBridgeVoltage">—</dd></div></dl>
+  <p id="motorBridgeHint">正转为正值。绕组电流按 + → − 记正。</p>
+  <div class="pwm-rc-actions"><button type="button" class="button" id="locateMotorBrake">定位刹车设置</button><button type="button" class="button" id="locateMotorDirection">定位方向设置</button><button type="button" class="button" id="openMotorStopScope" aria-controls="motorStopScope">看停转曲线</button><button type="button" class="button" id="replayMotorStop" title="把仿真电机速度归零，按当前代码重放">从静止重放</button><button type="button" class="text-button" id="focusLessonMotor">在台上看电机</button></div>
+ </section>
+ <section id="buttonBouncePanel" class="button-bounce-panel" aria-labelledby="buttonBounceTitle" hidden>
+  <h3 id="buttonBounceTitle">一次按压，程序数了几次？</h3>
+  <p>复位后重放同一段按压。观察 PB1、程序确认电平和外接灯，再把 <code>DEBOUNCE_MS</code> 从 0 改为 10，应用代码后再试一次。</p>
+  <div class="button-bounce-actions"><button type="button" class="button primary" id="replayButtonPress">复位并重放按压</button><button type="button" class="button" id="locateDebounce">定位消抖设置</button></div>
+  <p id="buttonReplayStatus" role="status"></p>
+ </section>
+ <section id="ultrasonicSourcePanel" class="pwm-rc-panel sonar-source-panel" aria-labelledby="ultrasonicSourceTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="ultrasonicSourceTitle">HC-SR04 · 超声波测距</h3><strong id="sonarStatus">等待触发</strong></div>
+  <dl class="pwm-rc-readings"><div><dt id="sonarPulseLabel">代码读到的脉宽</dt><dd id="sonarPulseWidth">—</dd></div><div id="sonarProgramDistance"><dt>程序距离</dt><dd id="sonarMeasuredDistance">—</dd></div><div id="sonarProgramAlarm"><dt>外接报警灯</dt><dd id="sonarAlarmState">—</dd></div></dl>
+  <div class="pwm-rc-actions"><button type="button" class="button" id="openSonarTarget" aria-controls="ultrasonicTargetPanel">调整目标</button><button type="button" class="button" id="locateSonarLimit">定位报警阈值</button><button type="button" class="button" id="locateSonarTrigger">定位触发时长</button><button type="button" class="button" id="openSonarTiming" aria-controls="ultrasonicTimingScope">看回波时序</button></div>
+ </section>
+ <section id="i2cOledPanel" class="pwm-rc-panel oled-source-panel" aria-labelledby="i2cOledTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="i2cOledTitle">SSD1306 · I²C 像素</h3><strong id="oledWriteStatus" role="status">等待程序写入</strong></div>
+  <dl class="pwm-rc-readings"><div><dt>模块地址</dt><dd id="oledDeviceAddress">—</dd></div><div><dt>程序写入地址</dt><dd id="oledPacketAddress">—</dd></div><div><dt>屏幕点亮像素</dt><dd id="oledPixelCount">—</dd></div></dl>
+  <p id="oledWriteHint"></p>
+  <div class="pwm-rc-actions"><button type="button" class="button" id="locateOledWidth">定位填充宽度</button><button type="button" class="button" id="locateOledAddress">定位写入地址</button><button type="button" class="button" id="openOledMonitor" aria-controls="monitor-oled-i2c">放大屏幕和记录</button><button type="button" class="button" id="openOledAnalyzer" aria-controls="monitor-i2c-analyzer">看逻辑波形</button><button type="button" class="button" id="focusOledPart">在台上看屏幕</button></div>
+ </section>
+ <section id="i2cTemperaturePanel" class="pwm-rc-panel temperature-source-panel" aria-labelledby="i2cTemperatureTitle" hidden>
+  <div class="pwm-rc-heading"><h3 id="i2cTemperatureTitle" tabindex="-1">MCP9808 · I²C 温度</h3><strong id="temperatureBusStatus" role="status">等待程序读取</strong></div>
+  <div id="ambientControls" class="ambient-controls">
+   <label for="ambientTemperature">环境温度 <output id="ambientTemperatureValue" for="ambientTemperature">25.25 °C</output></label>
+   <input id="ambientTemperature" type="range" min="-40" max="125" step="0.0625" value="25.25">
+   <div class="ambient-presets" aria-label="环境温度预设"><button type="button" class="button" data-ambient="-8.5">−8.5°</button><button type="button" class="button" data-ambient="25.25">25.25°</button><button type="button" class="button" data-ambient="34.5">34.5°</button></div>
+  </div>
+  <dl class="pwm-rc-readings temperature-readings"><div><dt>传感器采样</dt><dd id="temperatureSample">—</dd></div><div id="temperatureProgramReading"><dt id="temperatureReadbackLabel">程序读数</dt><dd id="temperatureReadback">—</dd></div><div id="temperatureAlarmReading"><dt>外接报警灯</dt><dd id="temperatureAlarm">—</dd></div></dl>
+  <p id="temperatureBusHint"></p>
+  <div id="temperatureDisplayScreen" class="temperature-display-screen" hidden>
+   <figure><canvas id="temperatureDisplayCanvas" aria-label="SSD1306 当前显示的像素"></canvas><figcaption>SSD1306 · 128 × 64</figcaption></figure>
+   <div><strong>OLED <code id="temperatureDisplayOledAddress">0x3D</code></strong><p id="temperatureDisplayOledStatus" role="status"></p><button type="button" class="button" id="temperatureDisplayMonitor" aria-controls="monitor-oled-i2c">放大屏幕和记录</button></div>
+  </div>
+  <p id="temperatureFirmwareReport" hidden>最近串口 <code id="temperatureFirmwareLine"></code></p>
+  <p id="temperatureNativeComparison" class="temperature-native-comparison" hidden></p>
+  <div id="temperatureDisplayComparison" class="temperature-display-comparison" aria-label="两份固件写入的实际 OLED 像素" hidden>
+   <figure><canvas id="temperatureDisplayBefore" aria-label="切换前的 OLED 像素"></canvas><figcaption id="temperatureDisplayBeforeLabel"></figcaption></figure>
+   <figure><canvas id="temperatureDisplayAfter" aria-label="切换后的 OLED 像素"></canvas><figcaption id="temperatureDisplayAfterLabel"></figcaption></figure>
+  </div>
+  <div class="pwm-rc-actions"><button type="button" class="button" id="locateTemperatureThreshold">定位报警阈值</button><button type="button" class="button" id="locateTemperatureAddress">定位传感器地址</button><button type="button" class="button" id="openTemperatureTrace" aria-controls="monitor-temperature-i2c">看读写记录</button><button type="button" class="button" id="openTemperatureAnalyzer" aria-controls="monitor-i2c-analyzer">看逻辑波形</button><button type="button" class="button" id="focusTemperaturePart">在台上看传感器</button></div>
+  <div id="temperatureFirmwareActions" class="pwm-rc-actions temperature-firmware-actions" role="group" aria-label="两种报警阈值的原生固件" hidden>
+   <button type="button" class="button" data-temperature-firmware="temperature-30">运行 30 °C 固件</button><button type="button" class="button" data-temperature-firmware="temperature-38">运行 38 °C 固件</button><button type="button" class="button" id="openNativeDraft" aria-controls="temperatureSourcePreview" hidden>编辑原生 C</button><a id="temperatureFirmwareSource" href="./firmware/uno-r3/temperature.c" download>下载固件 C 源码</a>
+   <p id="temperatureFirmwareExplanation">两个 HEX 由同一份 C 源码编译，阈值不同。修改固件源码后可重新编译，再用「更换固件」载入。</p>
+   <p id="temperatureFirmwareLoadStatus" role="status" hidden></p>
+  </div>
+  <div id="temperatureDisplayWires" class="pwm-rc-actions temperature-firmware-actions" role="group" aria-label="共享总线的两根 SDA 分支" hidden>
+   <button type="button" class="button" data-temperature-sda="temp1">拔下传感器 SDA</button><button type="button" class="button" data-temperature-sda="oled1">拔下 OLED SDA</button>
+   <p>每个按钮只改动对应模块的一根跳线。PB7 和 PB6 仍接到面包板上的共用孔组。</p>
+  </div>
+ </section>
+ <section id="nativeDraftPanel" class="pwm-rc-panel native-source-panel" aria-label="本地 STM32 C 工程" hidden>
+  <div id="nativeB1Observation" hidden>
+   <div class="pwm-rc-heading"><h3>B1 按键和 LD2</h3></div>
+   <p class="moment-copy">按住模型上的蓝色 B1，再松开，观察绿色 LD2。也可以用实验台上方的「B1 按住」。</p>
+   <dl class="pwm-rc-readings"><div><dt>B1 · PC13 输入</dt><dd id="nativeB1Input">—</dd></div><div><dt>LD2 · PA5 输出</dt><dd id="nativeLD2Output">—</dd></div></dl>
+  </div>
+  <section id="nativeEncoderObservation" class="encoder-observation" aria-labelledby="nativeEncoderTitle" hidden>
+   <div class="pwm-rc-heading"><h3 id="nativeEncoderTitle">旋钮、A/B 相与固件</h3></div>
+   <p class="moment-copy">横拖 3D 金属轴，或点按钮转一格。编译后，顺时针转三格观察外接灯。按下轴开关可让固件归零。</p>
+   <div id="encoderLessonControls"></div>
+   <dl class="pwm-rc-readings">
+    <div><dt>A · PB0</dt><dd id="encoderLevelA">—</dd></div><div><dt>B · PB1</dt><dd id="encoderLevelB">—</dd></div>
+    <div><dt>固件计数 · USART1</dt><dd id="encoderFirmwareCount">—</dd></div><div><dt>外接 LED · PA0</dt><dd id="encoderLedState">—</dd></div>
+   </dl>
+   <p class="encoder-phase"><strong>最近电平 AB</strong> <output id="encoderPhaseTrail">—</output></p>
+  </section>
+  <section id="nativeJoystickObservation" class="joystick-observation" aria-labelledby="nativeJoystickTitle" hidden>
+   <div class="pwm-rc-heading"><h3 id="nativeJoystickTitle">双轴摇杆 · 输入与灯</h3></div>
+   <p class="moment-copy">拖动模型帽可向任意方向推，松手回中。要对比代码，先用下方按钮固定一个偏移。</p>
+   <div id="joystickLessonControls"></div>
+   <div class="joystick-axis-readings">
+    <section aria-label="水平轴测量"><h4>水平 · PA4 → 绿灯</h4><output id="joystickXReading" aria-live="off">—</output></section>
+    <section aria-label="垂直轴测量"><h4>垂直 · PA5 → 黄灯</h4><output id="joystickYReading" aria-live="off">—</output></section>
+   </div>
+  </section>
+  <section id="nativeRgbObservation" class="rgb-observation" aria-labelledby="nativeRgbTitle" hidden>
+   <div class="pwm-rc-heading"><h3 id="nativeRgbTitle">三路 PWM 与 RGB 混色</h3><button type="button" class="button" id="nativeRgbLocate" aria-controls="scene">在实验台看灯罩</button></div>
+   <p class="moment-copy">先运行红灯，再把 <code>BLUE_PWM_PERMILLE</code> 从 0 改成 850，重新编译。点任意通道可切换引脚波形。</p>
+   <div class="rgb-samples" aria-label="混色对照">
+    <span id="nativeRgbBefore" hidden>上一版</span><span id="nativeRgbNow" hidden>当前版</span>
+   </div>
+   <table class="rgb-readings" aria-label="RGB 引脚占空比和支路平均电流">
+    <thead><tr><th scope="col">通道</th><th scope="col">占空比</th><th scope="col">平均电流</th></tr></thead>
+    <tbody id="nativeRgbRows"></tbody>
+   </table>
+   <p id="nativeRgbStatus" class="moment-copy">编译并运行后读取实际引脚与支路。</p>
+  </section>
+  <section id="nativeServoObservation" class="native-servo-observation" aria-labelledby="nativeServoTitle" hidden>
+   <div class="pwm-rc-heading"><h3 id="nativeServoTitle">旋钮、脉宽与舵臂</h3><button type="button" class="button" id="nativeServoLocate" aria-controls="scene">在实验台看舵臂</button></div>
+   <p class="moment-copy">拖动 3D 旋钮，或用下方按钮固定位置。保持 75%，把 <code>SERVO_REVERSED</code> 从 0 改为 1，再编译。</p>
+   <div class="pwm-rc-actions" id="nativeServoPresets" role="group" aria-label="固定旋钮位置">
+    <button type="button" class="button" data-position="0.25" aria-pressed="false">25%</button>
+    <button type="button" class="button" data-position="0.50" aria-pressed="false">50%</button>
+    <button type="button" class="button" data-position="0.75" aria-pressed="false">75%</button>
+   </div>
+   <dl class="native-servo-readings">
+    <div><dt>旋钮输入 · PA4</dt><dd id="nativeServoAdc">—</dd></div>
+    <div><dt>PWM 输出 · PA0</dt><dd id="nativeServoPwm">—</dd></div>
+    <div><dt>舵臂角度</dt><dd id="nativeServoAngle">—</dd></div>
+    <div><dt>舵机供电</dt><dd id="nativeServoSupply">—</dd></div>
+   </dl>
+   <p id="nativeServoStatus" class="moment-copy">等待控制信号</p>
+   <section id="nativeServoTrace" aria-labelledby="nativeServoTraceTitle" hidden>
+    <h4 id="nativeServoTraceTitle">重编译后的 400 ms</h4>
+    <p id="nativeServoCompareText" class="moment-copy"></p>
+    <svg viewBox="0 0 360 104" role="img" aria-labelledby="nativeServoGraphTitle">
+     <title id="nativeServoGraphTitle">舵臂实际角度为实线，PWM 目标角度为虚线。</title>
+     <path class="servo-turn-grid" d="M36 7H350M36 43H350M36 79H350M36 7V79M114.5 7V79M193 7V79M271.5 7V79M350 7V79"/>
+     <g class="servo-turn-labels">
+      <text x="30" y="10" text-anchor="end">+60°</text><text x="30" y="46" text-anchor="end">0°</text><text x="30" y="82" text-anchor="end">−60°</text>
+      <text x="36" y="97" text-anchor="middle">0</text><text x="114.5" y="97" text-anchor="middle">100</text><text x="193" y="97" text-anchor="middle">200</text><text x="271.5" y="97" text-anchor="middle">300</text><text x="350" y="97" text-anchor="end">400 ms</text>
+     </g>
+     <path id="nativeServoTraceTarget"/><path id="nativeServoTraceActual"/>
+    </svg>
+    <p class="servo-turn-key"><span>实线 · 实际舵臂</span><span>虚线 · PWM 目标</span></p>
+    <p class="moment-copy" id="nativeServoTraceSummary"></p>
+   </section>
+  </section>
+  <section id="nativePhotoresistorObservation" class="native-photoresistor-observation" aria-labelledby="nativePhotoresistorTitle" hidden>
+   <div class="native-photoresistor-heading"><h3 id="nativePhotoresistorTitle">光敏夜灯 · PDV-P8103</h3><button type="button" class="button" id="nativePhotoresistorLocate">在实验台看感光面</button></div>
+   <p class="moment-copy">点感光面或按钮盖上遮光片。阻值随虚拟时间变化，PA1 读取分压，PA0 驱动外接灯。</p>
+   <div id="nativePhotoresistorControls"></div>
+   <dl class="native-photoresistor-readings">
+    <div><dt>环境与目标照度</dt><dd id="nativePhotoresistorLight">—</dd></div>
+    <div><dt>感光阻值</dt><dd id="nativePhotoresistorResistance">—</dd></div>
+    <div><dt>PA1 当前电压</dt><dd id="nativePhotoresistorVoltage">—</dd></div>
+    <div><dt>ADC1 最近采样</dt><dd id="nativePhotoresistorAdc">—</dd></div>
+    <div><dt>PA0 外接灯</dt><dd id="nativePhotoresistorLamp">—</dd></div>
+    <div><dt>光敏响应</dt><dd id="nativePhotoresistorResponse">—</dd></div>
+   </dl>
+   <p class="moment-copy">先在 20 lx 下盖上、移开遮光片。再保持未遮光，试把 <code>DARK_ADC_THRESHOLD</code> 从 2000 改成 2800 并重新编译。</p>
+  </section>
+  <section id="nativeDipSwitchObservation" class="native-dip-switch-observation" aria-labelledby="nativeDipSwitchTitle" hidden>
+   <div class="native-dip-switch-heading"><h3 id="nativeDipSwitchTitle">四位拨码开关</h3><button type="button" class="button" id="nativeDipSwitchLocate">在实验台看拨码</button></div>
+   <p class="moment-copy">可点 3D 模型上的滑块，或用下面的按钮。闭合后引脚接地，代码把低电平记作 1。1 号是最低位。</p>
+   <div id="nativeDipSwitchControls"></div>
+   <dl class="native-dip-switch-readings"><div><dt>当前拨码 · 4 → 1</dt><dd id="nativeDipSwitchMask">—</dd></div><div><dt>PA0 外接灯</dt><dd id="nativeDipSwitchLamp">—</dd></div></dl>
+   <p class="moment-copy">保持 2、4 号为 ON。编译运行一次，再把 <code>MATCH_MASK</code> 从 5 改成 10 并编译，观察灯。</p>
+  </section>
+  <section id="nativeRelayObservation" class="native-relay-observation" aria-labelledby="nativeRelayTitle" hidden>
+   <div class="pwm-rc-heading"><h3 id="nativeRelayTitle">输入脉冲、机械触点与负载</h3><button type="button" class="button" id="nativeRelayLocate" aria-controls="scene">在实验台看继电器</button></div>
+   <p class="moment-copy">先编译 2 ms 的短脉冲。把 <code>PULSE_MS</code> 改成 220 再编译，观察独立 3.3 V 回路里的黄灯。</p>
+   <dl class="native-relay-readings">
+    <div><dt>定时器输出 · PA0</dt><dd id="nativeRelayPulse">—</dd></div>
+    <div><dt>继电器控制侧</dt><dd id="nativeRelaySupply">—</dd></div>
+    <div><dt>常开触点 · COM / NO</dt><dd id="nativeRelayContact">—</dd></div>
+    <div><dt>外接灯 · 独立电源</dt><dd id="nativeRelayLamp">—</dd></div>
+   </dl>
+   <p id="nativeRelayCompare" class="moment-copy" hidden></p>
+   <section id="nativeRelayScope" aria-labelledby="nativeRelayScopeTitle" hidden>
+    <h4 id="nativeRelayScopeTitle">一个定时器周期</h4>
+    <svg viewBox="0 0 360 107" role="img" aria-labelledby="nativeRelayChartTitle">
+     <title id="nativeRelayChartTitle">定时器输出、触点闭合和负载点亮的时间对照。</title>
+     <path class="relay-scope-grid" d="M58 7H350M58 23H350M58 34H350M58 51H350M58 63H350M58 80H350M58 7V80M131 7V80M204 7V80M277 7V80M350 7V80"/>
+     <g class="relay-scope-labels">
+      <text x="51" y="18" text-anchor="end">PA0</text><text x="51" y="46" text-anchor="end">触点</text><text x="51" y="74" text-anchor="end">黄灯</text>
+      <text x="58" y="99">0</text><text id="nativeRelayScopeEnd" x="350" y="99" text-anchor="end">500 ms</text>
+     </g>
+     <path id="nativeRelayTraceSig"/><path id="nativeRelayTraceContact"/><path id="nativeRelayTraceLoad"/>
+    </svg>
+    <p id="nativeRelayScopeStatus" class="moment-copy"></p>
+    <p class="moment-copy">模型连续高电平 10 ms 吸合、连续低电平 5 ms 释放。PA0 按寄存器绘制，触点和黄灯来自仿真采样。</p>
+   </section>
+  </section>
+  <details id="temperatureSourcePreview" class="temperature-source-preview">
+   <summary>编辑原生 C 并运行</summary>
+   <p id="nativeDraftInstructions"><span id="nativeDraftParameterHint">先试改 <code id="temperatureSourceParameter">ALARM_C</code>。</span> 支持多文件裸机 C11。工具链约 21 MB，首次编译时在当前浏览器加载。</p>
+   <div class="pwm-rc-actions native-draft-actions">
+    <button type="button" class="button primary" id="nativeDraftCompile" aria-keyshortcuts="Control+Enter Meta+Enter" disabled>编译并运行</button>
+    <button type="button" class="button" id="nativeDraftCancel" hidden>取消编译</button>
+    <button type="button" class="button" id="nativeDraftLocate" disabled>定位示例参数</button>
+    <button type="button" class="button" id="nativeDraftRestore" disabled>还原初始代码</button>
+   </div>
+   <p id="nativeDraftStatus" role="status" aria-atomic="true">正在读取源码…</p>
+   <ul id="nativeDraftDiagnostics" class="native-draft-diagnostics" aria-label="编译诊断" hidden></ul>
+   <div class="native-draft-files">
+    <label for="nativeDraftFiles">工程文件</label><select id="nativeDraftFiles" disabled></select>
+    <div class="pwm-rc-actions"><button type="button" class="button" id="nativeDraftAdd" disabled>新建文件</button><button type="button" class="button" id="nativeDraftImport" disabled>添加 C / H</button><button type="button" class="button" id="nativeDraftRemove" disabled>移除当前文件</button></div>
+    <input type="file" id="nativeDraftImportInput" accept=".c,.h" multiple hidden>
+   </div>
+   <label class="native-draft-label" for="nativeDraftEditor"><code id="nativeDraftFile">main.c</code><small>Ctrl / ⌘ + Enter 编译</small></label>
+   <textarea id="nativeDraftEditor" aria-describedby="nativeDraftInstructions" spellcheck="false" autocapitalize="off" autocomplete="off" rows="12" disabled></textarea>
+   <details class="native-draft-original"><summary>查看初始注释代码和本机编译文件</summary>
+    <div class="pwm-rc-actions"><a id="nativeDraftBuildGuide" href="./firmware/bluepill/README.md" download>编译说明</a><a href="./firmware/bluepill/startup.S" download>启动文件</a><a id="nativeDraftLinker" href="./firmware/bluepill/stm32f103c8.ld" download>链接脚本</a></div>
+    <pre id="temperatureSourceText" tabindex="0" aria-label="初始温度实验 C 源码"></pre>
+   </details>
+  </details>
+ </section>
+ <div id="editorUtilityBar"></div><div class="editor-top"><div class="file-tabs" id="fileTabs"></div><button class="icon-button small" id="addFileButton" aria-label="添加源文件" title="添加源文件">＋</button><button class="text-button" id="explainButton" title="查看当前文件的全部白话解释">解释全文</button><button class="button" id="initialCodeButton">初始注释代码</button></div>
+ <div class="editor-wrap"><div class="line-numbers" id="lineNumbers" aria-hidden="true"></div><div class="editor-surface"><pre id="codeHighlight" aria-hidden="true"></pre><textarea id="codeEditor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="代码编辑器"></textarea><div id="completionPopup" class="completion-popup" role="listbox" aria-label="代码补全建议" hidden></div></div><div class="annotation-column"><div class="annotation-label">// 这一行的意思</div><div id="lineAnnotations" class="line-annotations" aria-label="逐行白话注释"></div></div></div>
+ <div class="line-hint" id="lineHint"></div><div class="editor-status"><span id="cursorStatus">main.c · 行 1</span><span id="codeStatus">输入后自动检查</span></div><div class="compile-errors" id="compileErrors" hidden></div>
+</section>
+<section class="monitor-panel panel"><div class="monitor-tabs"><button class="active" data-monitor="pins">引脚与波形</button><button type="button" data-monitor="native-compare" aria-controls="monitor-native-compare" hidden>固件对照</button><button data-monitor="serial">串口</button><button data-monitor="diagnostics">诊断 <span id="diagnosticCount">0</span></button><button data-monitor="variables">变量</button><button type="button" data-monitor="pwm-rc" aria-controls="monitor-pwm-rc" hidden>PWM 与滤波</button><button type="button" data-monitor="ultrasonic" aria-controls="monitor-ultrasonic" hidden>回波时序</button><button type="button" data-monitor="oled-i2c" aria-controls="monitor-oled-i2c" hidden>OLED 与 I²C</button><button type="button" data-monitor="temperature-i2c" aria-controls="monitor-temperature-i2c" hidden>温度与 I²C</button><button type="button" data-monitor="i2c-analyzer" aria-controls="monitor-i2c-analyzer" hidden>I²C 逻辑分析</button><button type="button" data-monitor="motor-stop" aria-controls="monitor-motor-stop" hidden>电机停转</button><button type="button" data-monitor="button-bounce" aria-controls="monitor-button-bounce" hidden>按压波形</button><button class="text-button monitor-collapse" id="monitorToggle" aria-label="折叠或展开监测面板">⌄</button></div><div id="monitor-pins" class="monitor-content active"><div id="sourceTraceMonitor" class="source-trace-controls" hidden>
+ <label for="sourceTraceSignal">波形来源 <select id="sourceTraceSignal"><option value="pin">开发板引脚</option><option value="probes">红黑表笔（差分）</option><option value="led" hidden>LED 支路电流</option></select></label>
+ <p id="sourceProbeTraceStatus" role="status" hidden></p>
+ <p id="sourceLedTraceStatus" hidden></p><button type="button" id="stopSourceLedTrace" class="button" hidden>停止跟踪 LED</button>
+</div><div class="wave-heading"><label>引脚 <select id="wavePinSelect" aria-label="观察引脚"></select></label><span id="pinVoltage">— V</span></div><details id="sourceHardwareTrace" class="source-hardware-compare source-hardware-trace" hidden>
+ <summary>应用前后波形</summary>
+ <p id="sourceTraceProbePoints" class="source-trace-points" hidden></p>
+ <div class="source-trace-labels"><span class="source-trace-before"></span><span class="source-trace-after"></span></div>
+ <div class="source-trace-plot"></div>
+ <div class="source-trace-cursor">
+  <label for="sourceTraceCursor">读数游标</label><input id="sourceTraceCursor" type="range" min="0" max="5000" step="1" value="0" aria-describedby="sourceTraceNote"><span id="sourceTraceCursorTime">0 ms</span>
+ </div>
+ <div class="source-trace-cursor-readings"><span data-trace-cursor="before"></span><span data-trace-cursor="after"></span></div>
+ <small id="sourceTraceNote">从每版启动计时。游标旁标出实际采样的时间和电压。测点悬空或求解冲突时留白。快速 PWM 边沿和采样间的瞬态可能省略。</small>
+</details><button type="button" class="button" id="openNativePwmScope" aria-controls="nativePwmScope" hidden>PWM 周期对照</button><canvas id="waveCanvas" aria-label="引脚电平随虚拟时间变化的波形"></canvas><div class="pin-chips" id="pinChips"></div><p class="monitor-footnote live-wave-note">相对板上 GND 采样，缺测处留空。PWM 显示理论频率与占空比。</p></div><div id="monitor-serial" class="monitor-content"><label id="serialPortField" class="serial-port-field" hidden>观察串口<select id="serialPortSelect" aria-label="观察串口"></select></label><pre id="serialOutput" class="serial-output">串口输出会出现在这里。</pre><div class="serial-input"><input id="serialInput" placeholder="发送给模拟串口…" aria-label="串口发送内容"><button class="button" id="serialSendButton">发送</button><button class="text-button" id="serialClearButton">清空</button></div></div><div id="monitor-diagnostics" class="monitor-content"><div id="diagnosticsList"></div></div><div id="monitor-variables" class="monitor-content"><div id="variablesList"></div></div><div id="monitor-pwm-rc" class="monitor-content"><div id="pwmRcScope"></div></div><div id="monitor-ultrasonic" class="monitor-content"><div id="ultrasonicTimingScope"></div></div><div id="monitor-oled-i2c" class="monitor-content"><div class="oled-monitor-grid"><figure class="oled-pixel-view"><canvas id="oledPixelCanvas" width="128" height="64" role="img" aria-label="SSD1306 屏幕放大图" aria-describedby="oledPixelCaption"></canvas><figcaption id="oledPixelCaption">128 × 64 · 模块显示内存</figcaption></figure><div class="i2c-packets"><table><caption>最近五次写入</caption><thead><tr><th scope="col">虚拟 ms</th><th scope="col">地址</th><th scope="col">排队字节</th><th scope="col">返回状态</th></tr></thead><tbody></tbody></table><p data-i2c-empty>运行程序后查看记录。</p><p id="oledTraceTiming">Arduino 源码模式按标称 100 kHz 估算传输时间。</p></div></div></div><div id="monitor-temperature-i2c" class="monitor-content"><div class="temperature-monitor-grid"><div class="temperature-register"><p>环境温度寄存器 <code>0x05</code></p><strong id="temperatureRegisterWord">—</strong><p id="temperatureRegisterNote">传感器完成转换后更新。</p></div><div class="i2c-packets"><table><caption>最近五次 I²C 通信</caption><thead><tr><th scope="col">虚拟 ms</th><th scope="col">地址</th><th scope="col">排队字节</th><th scope="col">返回状态</th></tr></thead><tbody></tbody></table><p data-i2c-empty>运行程序后查看记录。</p><p id="temperatureTraceTiming">Arduino 源码模式按标称 100 kHz 估算传输时间。</p></div></div></div><div id="monitor-i2c-analyzer" class="monitor-content">
+ <div class="i2c-capture-actions" role="group" aria-label="I²C 捕获控制">
+  <button type="button" id="i2cCaptureFreeze" class="button">冻结记录</button><button type="button" id="i2cCaptureTrigger" class="button">捕获下一次失败</button><button type="button" id="i2cCaptureClear" class="button">清空记录</button>
+ </div>
+ <p id="i2cCaptureStatus" role="status" aria-atomic="true">等待 I²C 事务</p>
+ <div class="i2c-capture-selection">
+  <label for="i2cCapturedPacket">选择事务</label><select id="i2cCapturedPacket" disabled></select>
+  <div id="i2cAnalyzerPageControls" class="i2c-analyzer-pages" role="group" aria-label="按字节翻页" hidden><button type="button" class="button" id="i2cAnalyzerPrevious">上一组</button><span id="i2cAnalyzerPage"></span><button type="button" class="button" id="i2cAnalyzerNext">下一组</button></div>
+ </div>
+ <p id="i2cCapturedDetail" hidden></p><div id="i2cAnalyzerWaveform"></div>
+</div><div id="monitor-motor-stop" class="monitor-content"><div id="motorStopScope"></div></div><div id="monitor-button-bounce" class="monitor-content"><p>同一段模拟按压。曲线按程序采样时刻绘制，展开可查看原始读数。</p><div id="buttonBounceTrace"></div></div>
+<section id="monitor-native-compare" class="monitor-content" aria-labelledby="nativeObservationTitle" tabindex="-1" hidden>
+ <div class="native-observation-heading"><h3 id="nativeObservationTitle">原生固件硬件对照</h3><span id="nativeObservationIdentity" class="mini-chip" hidden></span></div>
+ <div class="native-observation-selectors">
+  <div><label for="nativeObservationPin">观察引脚</label><select id="nativeObservationPin" disabled></select><button type="button" class="button" id="nativeObservationLocatePin" aria-label="在实验台定位所选引脚" disabled>定位</button></div>
+  <div><label for="nativeObservationLed">LED 负载</label><select id="nativeObservationLed" disabled></select><button type="button" class="button" id="nativeObservationLocateLed" aria-label="在实验台定位所选 LED" disabled>定位</button></div>
+ </div>
+ <div class="native-observation-actions" role="group" aria-label="固件快照">
+  <button type="button" class="button" id="nativeObservationBefore" disabled>记录基线</button>
+  <button type="button" class="button" id="nativeObservationAfter" disabled>冻结当前</button>
+  <button type="button" class="button" id="nativeObservationClear" disabled>清空快照</button>
+ </div>
+ <p id="nativeObservationNotice" role="status" aria-atomic="true">运行固件后可以记录读数。</p>
+ <div id="nativePwmScope"></div>
+ <table class="native-observation-table" aria-labelledby="nativeObservationTitle">
+  <thead><tr><th scope="col">读数</th><th scope="col">基线快照</th><th scope="col" id="nativeObservationCurrent">当前 · 实时</th></tr></thead>
+  <tbody>
+   <tr><th scope="row">固件</th><td data-native-before="firmware">—</td><td data-native-after="firmware">—</td></tr>
+   <tr><th scope="row">虚拟时间</th><td data-native-before="time">—</td><td data-native-after="time">—</td></tr>
+   <tr><th scope="row">引脚模式</th><td data-native-before="pin">—</td><td data-native-after="pin">—</td></tr>
+   <tr><th scope="row">引脚瞬时电压</th><td data-native-before="voltage">—</td><td data-native-after="voltage">—</td></tr>
+   <tr><th scope="row">PWM</th><td data-native-before="pwm">—</td><td data-native-after="pwm">—</td></tr>
+   <tr><th scope="row">LED 电流</th><td data-native-before="led">—</td><td data-native-after="led">—</td></tr>
+   <tr><th scope="row">红黑表笔</th><td data-native-before="probes">—</td><td data-native-after="probes">—</td></tr>
+  </tbody>
+ </table>
+ <p class="native-observation-footnote">电压按表中的虚拟时间采样。比较周期信号的瞬时电压时，请在相同相位采样。LED 电流会注明瞬时或周期平均。</p>
+</section></section>
+</div></div>
+<div id="partsList" hidden></div>
+</section>
+<section id="page-blue-pill" class="page blue-pill-page" aria-label="开发板实物对照与拆解"><div id="bluePillInspector"></div></section>
+<section id="page-learn" class="page reading-page"><div class="page-heading"><div class="eyebrow">ONE SMALL STEP AT A TIME</div><h1>一次，学懂两个知识点。</h1><p>先看现象，再认识准确的名字。每一课都能回到实验台验证。</p></div><p class="course-context">这组课程对应 STM32F103C8T6 与标准外设库（SPL）。从其他板卡进入实验时会切换到配套的 F103 示例，原工程草稿会保留。</p><nav id="lessonQuickNav" class="lesson-quick-nav" aria-label="课程索引"></nav><div id="lessonsList" class="lesson-layout"></div></section>
+<section id="page-library" class="page reading-page"><div class="resource-loading" role="status"><h1>学习资料库</h1><p>正在整理课程、官方手册和你的阅读记录…</p></div></section>
+<section id="page-glossary" class="page reading-page"><div class="page-heading"><div class="eyebrow">CODE, IN PLAIN LANGUAGE</div><h1>这一句，到底在干什么？</h1><p>每个函数都对应到一个具体动作。先读白话，再看术语和使用边界。</p></div><div class="filter-bar"><input id="glossarySearch" placeholder="输入函数或概念：GPIO_Init、时钟、结构体…" aria-label="搜索函数白话说明"></div><div id="glossaryList" class="glossary-grid"></div></section>
+<section id="page-faults" class="page reading-page"><div class="page-heading"><div class="eyebrow">FIND THE REASON, NOT THE BLAME</div><h1>灯没亮，我们顺着查。</h1><p>先确定现象，再检查电源、接线与代码。每条故障都有能照着做的排查步骤。</p></div><div class="reading-callout"><strong>自动诊断有明确范围</strong><span>“可自动检测”对应当前仿真实现；真实焊接、芯片损坏、驱动安装等问题提供人工检查步骤，不会伪装成已测量的结果。</span><button class="button" id="faultScopeButton">查看能力范围</button></div><div class="filter-bar"><input id="faultSearch" placeholder="搜索：LED 不亮、ST-LINK、没有共地、串口…" aria-label="搜索故障手册"><select id="faultCategory" aria-label="故障分类"><option value="all">全部类别</option></select></div><div id="faultList" class="fault-grid"></div></section>
+</main></div><footer><span>方寸回路 · v10.43</span><button class="text-button" id="footerScope">能力范围与数据保存</button></footer></div>
+<div id="tourCard" class="tour-card" hidden><span id="tourProgress">1 / 4</span><button class="icon-button" id="tourClose" aria-label="结束操作指南">×</button><h3 id="tourTitle"></h3><p id="tourText"></p><div><button class="text-button" id="tourPrev">上一步</button><button class="button primary" id="tourNext">下一步 →</button></div></div>
+<div id="toast" role="status" aria-live="polite"></div><dialog id="modal" aria-labelledby="modalTitle"><div class="modal-header"><h2 id="modalTitle"></h2><button class="icon-button" id="modalClose" aria-label="关闭弹窗">×</button></div><div id="modalBody"></div></dialog><input type="file" id="firmwareInput" accept=".hex,.bin,.uf2" hidden><input id="fileInput" type="file" accept=".c,.h,.cpp,.hpp,.ino,.json,.zip,.uvprojx,.uvproj,.hex,.elf,.bin,.uf2" multiple hidden><script src="./vendor/jszip.min.js"></script><script type="module" src="./app.js?v=10.43.0"></script></body></html>

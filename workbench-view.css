@@ -1,0 +1,177 @@
+.scene-screen-reader {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.scene-stack {
+  min-height: min-content;
+}
+
+.scene-stack > .scene-panel {
+  flex: 1 0 auto;
+}
+
+.scene-stack > .inspector {
+  flex-shrink: 0;
+}
+
+.scene-panel > .board-workflow,
+.scene-panel > .scene-toolbar {
+  flex: 0 0 auto;
+}
+
+.scene-panel > .board-workflow {
+  background: #f7fbf7;
+}
+
+.board-workflow #boardMountStatus {
+  flex-basis: 100%;
+  line-height: 1.45;
+}
+
+.scene-toolbar {
+  flex-wrap: wrap;
+}
+
+.scene-toolbar .view-actions {
+  flex-wrap: wrap;
+}
+
+.scene-toolbar .view-actions [data-scene-view] {
+  display: inline-flex;
+  align-items: center;
+  color: #48625c;
+}
+
+.scene-toolbar .view-actions [aria-pressed='true'] {
+  background: #dbeee7;
+  color: #164f43;
+}
+
+.scene-camera-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-width: 0;
+}
+
+.scene-camera-actions .scene-camera-button {
+  padding-inline: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.scene-camera-actions .scene-camera-button[aria-pressed='true'] {
+  background: #1f694f;
+  border-color: #1f694f;
+  color: #fff;
+}
+
+.scene-camera-actions:has(.scene-camera-help[open]),
+.scene-camera-help[open] {
+  flex: 1 0 100%;
+}
+
+.scene-camera-help {
+  color: #48625c;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.scene-camera-help > summary {
+  padding: 8px 5px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.scene-camera-help > summary:focus-visible {
+  outline: 2px solid #0e7767;
+  outline-offset: 1px;
+}
+
+.scene-camera-help > div {
+  display: grid;
+  gap: 3px;
+  margin: 0 0 2px;
+  padding: 6px 8px;
+  border: 1px solid #d2dedb;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.scene-camera-help p { margin: 0; }
+.scene-camera-in-2d,
+.scene-panel:has(#scene[data-active-view='2d']) .scene-camera-in-3d,
+.scene-panel:has(#scene[data-active-view='2d']) #sceneOrbitView { display: none; }
+.scene-panel:has(#scene[data-active-view='2d']) .scene-camera-in-2d { display: block; }
+
+.scene-renderer-note {
+  margin: 0;
+  padding: 8px 12px;
+  background: #fff2d6;
+  color: #673d05;
+  font-size: 12px;
+}
+
+#scene[data-active-view='3d'] .workbench-surface {
+  grid-template-rows: minmax(230px, 1fr) auto auto;
+}
+
+#scene[data-active-view='3d'] {
+  min-height: 312px;
+  overflow: clip;
+}
+
+#scene .workbench-surface > .scene-camera-controls:last-child {
+  grid-row: 3;
+  grid-column: 1/-1;
+  justify-content: center;
+  background: #f7faf8;
+  border-top: 1px solid #d2dedb;
+}
+
+#scene .workbench-surface > .scene-camera-controls:last-child > [role='toolbar']:first-child:has(button) {
+  display: flex !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  gap: 4px !important;
+  flex-wrap: wrap !important;
+  justify-content: center;
+}
+
+#scene .workbench-surface > .scene-3d-status[role='status'] {
+  grid-column: 1/-1;
+  height: auto !important;
+  min-height: 28px;
+}
+
+.scene-camera-button {
+  min-width: 36px;
+  min-height: 34px;
+  padding: 2px 7px;
+  border: 1px solid #b9cec6;
+  border-radius: 7px;
+  background: #fff;
+  color: #224b43;
+  font: 13px system-ui, sans-serif;
+}
+
+.scene-camera-button:hover { background: #e7f4ed; }
+.scene-camera-button:disabled { opacity: .5; background: #f7faf8; }
+.scene-camera-button:focus-visible { outline: 2px solid #0e7767; outline-offset: 1px; }
+
+@media (max-width: 760px) {
+  #scene[data-active-view='3d'] .workbench-surface { grid-template-rows: minmax(260px, 1fr) auto auto; }
+  #scene[data-active-view='3d'] { min-height: 398px; }
+  .scene-camera-button { min-width: 44px; min-height: 44px; }
+  .board-workflow > .button { min-height: 44px; }
+  .scene-toolbar .view-actions > button:not([hidden]), .scene-toolbar #toolModes > button { min-height: 44px; }
+  .scene-camera-help > summary { min-width: 44px; min-height: 44px; padding: 13px 3px; }
+}
