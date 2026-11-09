@@ -3766,7 +3766,9 @@ function createThreeWorkbench(container, hooks = {}, options = {}) {
     }
     if(!text){tooltip.style.display='none';return;}
     tooltip.textContent=text;tooltip.style.display='block';const bounds=stage.getBoundingClientRect();
-    tooltip.style.left=clamp(event.clientX-bounds.left+15,8,Math.max(8,bounds.width-255))+'px';tooltip.style.top=clamp(event.clientY-bounds.top+15,8,Math.max(8,bounds.height-tooltip.offsetHeight-8))+'px';
+    tooltip.style.maxWidth=Math.min(240,Math.max(1,bounds.width-16))+'px';tooltip.style.overflowWrap='anywhere';
+    tooltip.style.left=clamp(event.clientX-bounds.left+15,8,Math.max(8,bounds.width-tooltip.offsetWidth-8))+'px';
+    tooltip.style.top=clamp(event.clientY-bounds.top+15,8,Math.max(8,bounds.height-tooltip.offsetHeight-8))+'px';
   }
   function setSelected(id){
     const next=selectionDescriptor(circuit,id)?.id??null;

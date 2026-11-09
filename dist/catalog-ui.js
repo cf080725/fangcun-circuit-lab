@@ -103,7 +103,7 @@ export function createCatalog({onBoard,onPart,onChange,initialBOM=[],modal,toast
  const mountFilter=$('#catalogMountFilter'),mountFilterRow=mountFilter.closest('.catalog-mount-filter-row');
  $('#catalogQuickFilters').insertAdjacentHTML('afterend','<div class="catalog-tools"><button id="catalogFavorites" class="text-button" aria-pressed="false">☆ 只看收藏</button><select id="catalogSort" aria-label="硬件排序"><option value="supported">可运行模型优先</option><option value="name">名称排序</option></select><button id="catalogReset" class="text-button">清除筛选</button></div>');
  $('.catalog-footer').insertAdjacentHTML('beforebegin','<div id="catalogCompareBar" class="catalog-compare-bar" hidden><span id="catalogCompareCount"></span><button class="button primary-light" id="catalogCompareButton">对比开发板</button><button class="text-button" id="catalogCompareClear">清空</button></div>');
- const narrowViewport=globalThis.matchMedia?.('(max-width: 760px)'),mainContent=$('#mainContent');let previousMainInert=null;
+ const narrowViewport=globalThis.matchMedia?.('(max-width: 760px), (max-width: 950px) and (max-height: 500px)'),mainContent=$('#mainContent');let previousMainInert=null;
  $('#catalogResultCount').tabIndex=-1;
  $('#marketButton').setAttribute('aria-controls','catalogDrawer');
  $('.catalog-tabs').setAttribute('role','group');$('.catalog-tabs').setAttribute('aria-label','硬件目录分类');

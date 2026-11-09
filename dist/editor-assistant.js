@@ -300,7 +300,12 @@ export function createEditorAssistant({textarea,annotations,popup,hint,getContex
   popup.innerHTML=suggestions.map((s,i)=>`<button type="button" tabindex="-1" id="${uid}-option-${i}" role="option" aria-selected="${i===active}" class="${i===active?'active':''}" data-completion="${i}"><span><b>${html(s.label)}</b><small>${html(s.kind)}</small></span><em>${html(s.detail)}</em></button>`).join('')+'<div class="completion-footer" role="presentation">↑ ↓ 选择 · Enter / Tab 填入 · Esc 关闭</div>';
   textarea.setAttribute?.('aria-activedescendant',uid+'-option-'+active);
   popup.querySelectorAll('[data-completion]').forEach(b=>{b.onpointerdown=e=>e.preventDefault();b.onclick=e=>{e.preventDefault();accept(Number(b.dataset.completion));};});
-  popup.querySelector?.('#'+uid+'-option-'+active)?.scrollIntoView?.({block:'nearest'});
+  const selected=popup.querySelector?.('#'+uid+'-option-'+active);
+  if(selected&&popup.getBoundingClientRect&&selected.getBoundingClientRect){
+   const bounds=popup.getBoundingClientRect(),option=selected.getBoundingClientRect();
+   if(option.top<bounds.top)popup.scrollTop+=option.top-bounds.top;
+   else if(option.bottom>bounds.bottom)popup.scrollTop+=option.bottom-bounds.bottom;
+  }
  }
  function edit(change,{suggest=false}={}){
   textarea.setRangeText(change.text,change.start,change.end,'end');textarea.setSelectionRange(change.selectionStart,change.selectionEnd);close();dispatch('input');if(!suggest)close();dispatch('select');

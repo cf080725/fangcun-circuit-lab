@@ -78,8 +78,28 @@ export function mountEditorTools({textarea,host,onNavigate,onOpen,lineHeight=22}
  }
  function navigate(match,{focusEditor=false}={}){
   textarea.setSelectionRange(match.start,match.end);
-  const row=textarea.value.slice(0,match.start).split('\n').length;textarea.scrollTop=Math.max(0,(row-4)*lineHeight);
-  if(focusEditor)textarea.focus();dispatch(textarea,'select');dispatch(textarea,'scroll');onNavigate?.({line:row,start:match.start,end:match.end});
+  const before=textarea.value.slice(0,match.start),lines=before.split('\n'),row=lines.length;
+  if(focusEditor)textarea.focus({preventScroll:true});
+  textarea.scrollTop=Math.max(0,(row-4)*lineHeight);
+  const style=doc.defaultView?.getComputedStyle?.(textarea);
+  const measure=style&&doc.createElement('canvas').getContext?.('2d');
+  if(measure&&textarea.clientWidth){
+   measure.font=`${style.fontSize} ${style.fontFamily}`;
+   const tabSize=Number.parseInt(style.tabSize,10)||4;
+   const tabWidth=measure.measureText(' '.repeat(tabSize)).width;
+   let left=0;
+   for(const [index,segment] of lines.at(-1).split('\t').entries()){
+    if(index&&tabWidth)left=(Math.floor(left/tabWidth)+1)*tabWidth;
+    left+=measure.measureText(segment).width;
+   }
+   const selected=textarea.value.slice(match.start,match.end).split(/[\n\t]/,1)[0];
+   const right=left+measure.measureText(selected).width;
+   const padding=(Number.parseFloat(style.paddingLeft)||0)+(Number.parseFloat(style.paddingRight)||0);
+   const available=Math.max(1,textarea.clientWidth-padding);
+   if(left<textarea.scrollLeft)textarea.scrollLeft=Math.max(0,left-12);
+   else if(right>textarea.scrollLeft+available)textarea.scrollLeft=Math.min(left,Math.max(0,right-available+12));
+  }
+  dispatch(textarea,'select');dispatch(textarea,'scroll');onNavigate?.({line:row,start:match.start,end:match.end});
  }
  function open(nextMode='find'){
   if(!Object.hasOwn(triggers,nextMode))nextMode='find';const selected=textarea.value.slice(textarea.selectionStart,textarea.selectionEnd);
@@ -121,6 +141,7 @@ export function mountEditorTools({textarea,host,onNavigate,onOpen,lineHeight=22}
  listen(root,'keydown',event=>{
   if(composing||event.isComposing||event.keyCode===229)return;
   if(event.key==='Escape'){event.preventDefault();event.stopPropagation();close();}
+  else if(event.key==='F3'&&q.input.value){event.preventDefault();event.stopPropagation();findNext(event.shiftKey?-1:1);}
   else if(event.key==='Enter'&&event.target?.tagName==='INPUT'){
    event.preventDefault();event.stopPropagation();if(mode==='goto')goToLine(line.input.value);else if(event.target===replacement.input)replaceCurrent();else findNext(event.shiftKey?-1:1);
   }

@@ -3,9 +3,9 @@ import {BOARD_PROFILES,BOARD_PROFILE_LIST,getBoardProfile,makeBoardStarter,board
 import {nativeObservationContext,nativeObservationSample} from './native-observation.js';
 import {createNativeObservationPanel} from './native-observation-panel.js';
 import {createNativePwmScope} from './native-pwm-scope.js';
-import {createEditorAssistant,explainSourceLine,explainSource} from './editor-assistant.js';
-import {mountResourceLibrary} from './resource-library.js';
-import {mountEditorTools} from './editor-tools.js';
+import {createEditorAssistant,explainSourceLine,explainSource} from './editor-assistant.js?v=10.43.1';
+import {mountResourceLibrary} from './resource-library.js?v=10.43.1';
+import {mountEditorTools} from './editor-tools.js?v=10.43.1';
 import {codeLocation,guidanceFor} from './learning-guide.js';
 import {planFault} from './fault-exercises.js';
 import {readImportSelection,parseLabProject,sourcePath,validateAvrFirmware,validateStm32Firmware,validateRp2040Firmware,encodeProjectUf2,parseProjectUf2} from './project-import.js';
@@ -14,7 +14,7 @@ import {STM32_FLASH_BASE,getStm32FirmwareTarget,parseStm32Hex,stm32BinToHex} fro
 import {RP2040_UF2_MAX_BYTES} from './rp2040-firmware-image.js';
 import {createAvrCircuitIO} from './avr-circuit-io.js';
 import {parameterSpecs,parseParameter,partConnections,collectDiagnostics} from './inspector-tools.js';
-import {createCatalog,boardModelTier,EXTRA_RESOURCES} from './catalog-ui.js';
+import {createCatalog,boardModelTier,EXTRA_RESOURCES} from './catalog-ui.js?v=10.43.1';
 import {normalizeBOM} from './catalog-index.js';
 import {BOARD_CATALOG,COMPONENT_CATALOG} from './catalog-data.js';
 import * as Content from './content.js';
@@ -1540,8 +1540,29 @@ $('#sceneDeleteUndo').onclick = () => {
   if (lastPartRemoval && lastPartRemoval === undoStack.at(-1)) undoCircuit();
 };
 function syntax(s){const re=/(\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|^[ \t]*#[^\n]*|\b(?:int|void|if|else|while|for|return|const|static|volatile|unsigned|signed|char|short|long|float|double|struct|typedef|uint8_t|uint16_t|uint32_t|break|continue|switch|case|default)\b|\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)?)\b|\b[A-Za-z_]\w*(?=\s*\())/gm;let pos=0,out='',m;while((m=re.exec(s))){out+=esc(s.slice(pos,m.index));let cls=m[0].startsWith('//')||m[0].startsWith('/*')?'comment':m[0].trim().startsWith('#')?'pre':/^['"]/.test(m[0])?'str':/^\d/.test(m[0])?'num':/^(int|void|if|else|while|for|return|const|static|volatile|unsigned|signed|char|short|long|float|double|struct|typedef|uint\d+_t|break|continue|switch|case|default)$/.test(m[0])?'kw':'fn';out+='<span class="'+cls+'">'+esc(m[0])+'</span>';pos=re.lastIndex;}return out+esc(s.slice(pos))+'\n';}
-function renderFiles(){$('#fileTabs').innerHTML=Object.keys(files).map(f=>'<button class="file-tab '+(f===activeFile?'active':'')+'" data-file="'+esc(f)+'">'+esc(f)+'<span class="file-close" data-remove-file="'+esc(f)+'" title="移除文件">×</span></button>').join('');$$('[data-file]').forEach(b=>b.onclick=e=>{if(e.target.dataset.removeFile){if(Object.keys(files).length===1)return toast('至少保留一个源文件。');if(confirm('移除 '+b.dataset.file+'？')){delete files[b.dataset.file];if(activeFile===b.dataset.file)activeFile=Object.keys(files)[0];renderFiles();loadEditor();sourceDraftChanged();}return;}activeFile=b.dataset.file;renderFiles();loadEditor();save();});}
-function loadEditor(){editorAssistant?.close();switching=true;$('#codeEditor').value=files[activeFile]||'';$('#codeEditor').scrollTop=0;$('#codeEditor').setSelectionRange(0,0);editorLine=1;updateEditor();editorAssistant?.refresh();editorTools?.refresh();switching=false;}
+function removeSourceFile(name){
+ if(Object.keys(files).length===1)return toast('至少保留一个源文件。');
+ if(!confirm('移除 '+name+'？'))return;
+ delete files[name];
+ if(activeFile===name)activeFile=Object.keys(files)[0];
+ renderFiles();loadEditor();sourceDraftChanged();
+ $('#fileTabs .file-tab.active')?.focus({preventScroll:true});
+}
+function renderFiles(){
+ $('#fileTabs').innerHTML=Object.keys(files).map(f=>'<button type="button" class="file-tab '+(f===activeFile?'active':'')+'" data-file="'+esc(f)+'" aria-pressed="'+String(f===activeFile)+'" aria-keyshortcuts="Delete">'+esc(f)+'<span class="file-close" data-remove-file="'+esc(f)+'" aria-hidden="true" title="移除文件">×</span></button>').join('');
+ $$('#fileTabs [data-file]').forEach(button=>{
+  button.onclick=event=>{
+   if(event.target.dataset.removeFile)return removeSourceFile(button.dataset.file);
+   activeFile=button.dataset.file;renderFiles();loadEditor();save();
+   $('#fileTabs .file-tab.active')?.focus({preventScroll:true});
+  };
+  button.onkeydown=event=>{
+   if(event.key!=='Delete'||event.isComposing||event.repeat)return;
+   event.preventDefault();event.stopPropagation();removeSourceFile(button.dataset.file);
+  };
+ });
+}
+function loadEditor(){editorAssistant?.close();switching=true;const editor=$('#codeEditor');editor.value=files[activeFile]||'';editor.setSelectionRange(0,0);editor.scrollTop=0;editor.scrollLeft=0;editorLine=1;updateEditor();editorAssistant?.refresh();editorTools?.refresh();switching=false;}
 function updateEditor(){const e=$('#codeEditor');$('#codeHighlight').innerHTML=syntax(e.value);const count=e.value.split('\n').length;const pc=sourcePending?null:lastState.pc;$('#lineNumbers').innerHTML=Array.from({length:count},(_,i)=>'<div class="'+((pc?.file===activeFile&&pc.line===i+1)?'current':errors.some(x=>x.line===i+1&&(!x.file||x.file===activeFile))?'error':'')+'">'+(i+1)+'</div>').join('');syncEditor();$('#cursorStatus').textContent=activeFile+' · 行 '+editorLine;}
 function syncEditor(){const e=$('#codeEditor');$('#codeHighlight').scrollTop=e.scrollTop;$('#codeHighlight').scrollLeft=e.scrollLeft;$('#lineNumbers').scrollTop=e.scrollTop;}
 function sourceDraftChanged(){
@@ -2064,7 +2085,7 @@ function openSourceScope(signal){
  if(nativeMode())return;
  sourceTraceSignal=signal;
  if(signal==='pin')$('#sourceHardwareCompare').open=false;
- if(signal!=='pin'&&matchMedia('(max-width: 760px)').matches)setMobilePane('editor');
+ if(signal!=='pin'&&compactWorkspace.matches)setMobilePane('editor');
  $('.monitor-panel').classList.remove('collapsed');
  $('[data-monitor="pins"]').click();
  const trace=$('#sourceHardwareTrace');
@@ -4800,11 +4821,23 @@ $('#fileInput').onchange=async e=>{
 
 function showScope(){modal('这座实验台的能力范围','<div class="scope-list"><div><h3>可以直接操作</h3><ul><li>'+BOARD_PROFILE_LIST.length+' 款板卡的引脚、电平与基础外设行为模型。</li><li>'+Object.keys(PARTS).length+' 类电气元件模型；商城会区分可仿真与资料型。</li><li>F103标准外设库子集，以及Arduino风格 setup / loop / GPIO / ADC / PWM / 串口。</li><li>UNO R3、经典 Nano 和 Mega 2560 的 Arduino 源码可用 Wire 写入 SSD1306，并读取 MCP9808。模型按接线与地址处理应答。</li><li>多文件编辑、逐行白话、语法检查、补全、运行和单步。</li><li>Blue Pill 与 NUCLEO-F103RB 原生固件支持 GPIO、单通道 ADC1、基础 PWM、SysTick 中断、字节控制台和 I²C1 7 位主机轮询。I²C1 使用 PB6、PB7 的默认引脚。NUCLEO-F103RB 支持板载 B1 与 LD2，并可查看 USART2。UNO R3、经典 Nano 和 Mega 2560 原生固件支持 GPIO、单次 ADC 转换、定时器、串口控制台与主机 TWI，可通过仿真接线读 MCP9808 或写 SSD1306。</li><li>代码与接线一起保存；电路操作支持撤销、重做。</li></ul></div><div><h3>需要回到实际工具验证</h3><ul><li>Blue Pill 和 NUCLEO-F103RB 可运行各自的 Cortex-M3 应用 HEX/BIN。UNO R3、经典 Nano 和 Mega 2560 可运行 AVR 应用 HEX。经典 Raspberry Pi Pico 可运行 RP2040 应用 UF2，覆盖单核 GPIO、模拟输入、边沿对齐 PWM 和 UART0 字节终端。ELF 请先转换为对应固件。</li><li>真实中断、DMA、I²C/SPI、Wi-Fi、USB等按每张卡片的支持范围判断；目录收录不代表已实现仿真。</li><li>虚拟时间、简化模拟元件和外观模型不等同于真机时序、热损坏、EMC或制板尺寸。</li><li>实时检查不等于逻辑一定正确；仍需运行、测量并与实物对照。</li><li>IDE导出会附依赖、工具链与接入步骤；未在你的电脑或Keil中编译烧录。</li></ul></div></div><h3>编辑与接线</h3><p>Ctrl / ⌘ + Enter 运行；Ctrl + Space 补全；Tab 接受建议。输入后自动显示白话与检查结果。默认双击起点引脚、再单击终点。主动切到「接线」可直接点两端或拖拽。元件可直接拖动，选中后用方向键微移、R 旋转。点「取消接线」或按 Esc 可清除待接线状态。</p><h3>保存</h3><p>项目留在当前浏览器。换设备前请用“保存工程”导出JSON，代码、板型、元件、接线和备料清单都会包含在内。源码不会发送到外部编译服务。</p>');}
 for(const id of ['helpButton','scopeButton','faultScopeButton','footerScope'])$('#'+id).onclick=showScope;
-function renderGlossary(){const q=$('#glossarySearch').value.trim().toLowerCase();const matched=glossary.filter(g=>JSON.stringify(g).toLowerCase().includes(q));$('#glossaryList').innerHTML=matched.length?matched.map(g=>'<article class="glossary-card"><h3>'+esc(g.name)+'</h3><div class="plain">'+esc(g.plain)+'</div><pre>'+esc(g.signature||g.example)+'</pre><details class="details"><summary>专业说法与类比边界</summary><p>'+esc(g.technical)+'</p><p>'+esc(g.analogy||'')+'</p></details><p class="gotcha">最容易误解：'+esc(g.gotcha||'')+'</p><p>例子</p><pre>'+esc(g.example||'')+'</pre></article>').join(''):'<div class="empty-state">暂未收录这个名称。导入代码运行时，未知函数会明确报错。</div>';}
+function renderGlossary(){const q=$('#glossarySearch').value.trim().toLowerCase();const matched=glossary.filter(g=>JSON.stringify(g).toLowerCase().includes(q));$('#glossaryResults').textContent='找到 '+matched.length+' 条术语';$('#glossaryClear').hidden=!$('#glossarySearch').value;$('#glossaryList').innerHTML=matched.length?matched.map(g=>'<article class="glossary-card"><h3>'+esc(g.name)+'</h3><div class="plain">'+esc(g.plain)+'</div><pre>'+esc(g.signature||g.example)+'</pre><details class="details"><summary>专业说法与类比边界</summary><p>'+esc(g.technical)+'</p><p>'+esc(g.analogy||'')+'</p></details><p class="gotcha">最容易误解：'+esc(g.gotcha||'')+'</p><p>例子</p><pre>'+esc(g.example||'')+'</pre></article>').join(''):'<div class="empty-state">暂未收录这个名称。导入代码运行时，未知函数会明确报错。</div>';}
 $('#glossarySearch').oninput=renderGlossary;
-function renderFaults(){const q=$('#faultSearch').value.trim().toLowerCase(),cat=$('#faultCategory').value;const filtered=faultCatalog.filter(f=>(cat==='all'||f.category===cat)&&JSON.stringify(f).toLowerCase().includes(q));$('#faultList').innerHTML=filtered.length?filtered.map(f=>'<article class="fault-card"><span class="category-tag">'+esc(f.category)+'</span><span class="detect-tag">'+(f.detectable?'当前可自动检测':'人工排查知识')+'</span><h3>'+esc(f.title)+'</h3><p>'+esc(f.plain)+'</p>'+(f.detectable&&f.detectionScope?'<p class="detection-scope">当前检测条件：'+esc(f.detectionScope)+'</p>':'')+'<details class="details"><summary>为什么会这样</summary><p>'+esc(f.why)+'</p><p>'+esc(f.technical)+'</p></details><ol>'+f.steps.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol></article>').join(''):'<div class="empty-state">暂未找到这类问题。可以换一个现象关键词搜索。</div>';}
+$('#glossaryClear').onclick=()=>{
+ const search=$('#glossarySearch');search.value='';renderGlossary();search.focus();
+};
+function renderFaults(){const q=$('#faultSearch').value.trim().toLowerCase(),cat=$('#faultCategory').value;const filtered=faultCatalog.filter(f=>(cat==='all'||f.category===cat)&&JSON.stringify(f).toLowerCase().includes(q));$('#faultResults').textContent='找到 '+filtered.length+' 条排查资料';$('#faultClear').hidden=!$('#faultSearch').value&&cat==='all';$('#faultList').innerHTML=filtered.length?filtered.map(f=>'<article class="fault-card"><span class="category-tag">'+esc(f.category)+'</span><span class="detect-tag">'+(f.detectable?'当前可自动检测':'人工排查知识')+'</span><h3>'+esc(f.title)+'</h3><p>'+esc(f.plain)+'</p>'+(f.detectable&&f.detectionScope?'<p class="detection-scope">当前检测条件：'+esc(f.detectionScope)+'</p>':'')+'<details class="details"><summary>为什么会这样</summary><p>'+esc(f.why)+'</p><p>'+esc(f.technical)+'</p></details><ol>'+f.steps.map(s=>'<li>'+esc(s)+'</li>').join('')+'</ol></article>').join(''):'<div class="empty-state">暂未找到这类问题。可以换一个现象关键词搜索。</div>';}
 $('#faultCategory').innerHTML='<option value="all">全部类别</option>'+[...new Set(faultCatalog.map(f=>f.category))].map(c=>'<option>'+esc(c)+'</option>').join('');$('#faultSearch').oninput=renderFaults;$('#faultCategory').onchange=renderFaults;
-function renderLessons(){$('#lessonQuickNav').innerHTML=lessons.map((l,i)=>'<button data-lesson-jump="'+esc(l.id)+'"><b>'+String(i+1).padStart(2,'0')+'</b>'+esc(l.title)+'</button>').join('');$$('[data-lesson-jump]').forEach(b=>b.onclick=()=>$('#lesson-'+b.dataset.lessonJump)?.scrollIntoView({behavior:'smooth',block:'start'}));$('#lessonsList').innerHTML=lessons.map((l,i)=>'<article class="lesson-card" id="lesson-'+esc(l.id)+'"><span class="lesson-number">LESSON '+String(i+1).padStart(2,'0')+' / 两个知识点</span><h2>'+esc(l.title)+'</h2><p>'+esc(l.intro)+'</p><div class="lesson-columns">'+(l.concepts||[]).map(c=>'<div><h3>'+esc(c.title)+'</h3><p>'+esc(c.plain)+'</p><div class="code-quote">'+esc(c.example||'')+'</div><details class="details"><summary>专业版</summary><p>'+esc(c.technical)+'</p></details></div>').join('')+'</div><h3>把白话和术语对上</h3><p>'+(l.termMap||[]).map(([a,b])=>esc(a)+' → <strong>'+esc(b)+'</strong>').join('　/　')+'</p><p class="gotcha">容易误解：'+esc(l.commonMisunderstanding)+'</p><div class="quiz-card"><strong style="font-size:12px">先自己说一遍，再看解释</strong>'+(l.checks||[]).map((c,j)=>'<p>'+(j+1)+'. '+esc(c.question)+'</p><details><summary>看解释</summary><p class="quiz-answer">'+esc(c.answer)+'</p></details>').join('')+'</div><button class="button primary" data-lesson-example="'+esc(l.exampleId||'blink')+'">到实验台验证 →</button></article>').join('');$$('[data-lesson-example]').forEach(b=>b.onclick=()=>{loadExample(b.dataset.lessonExample);go('lab');});}
+$('#faultClear').onclick=()=>{
+ const search=$('#faultSearch');search.value='';$('#faultCategory').value='all';renderFaults();search.focus();
+};
+function showLesson(id){
+ const lesson=document.getElementById('lesson-'+id);
+ if(!lesson)return;
+ const heading=lesson.querySelector('h2');
+ heading.tabIndex=-1;heading.focus({preventScroll:true});lesson.scrollIntoView({block:'start'});
+}
+function renderLessons(){$('#lessonQuickNav').innerHTML=lessons.map((l,i)=>'<button data-lesson-jump="'+esc(l.id)+'"><b>'+String(i+1).padStart(2,'0')+'</b>'+esc(l.title)+'</button>').join('');$$('[data-lesson-jump]').forEach(b=>b.onclick=()=>showLesson(b.dataset.lessonJump));$('#lessonsList').innerHTML=lessons.map((l,i)=>'<article class="lesson-card" id="lesson-'+esc(l.id)+'"><span class="lesson-number">LESSON '+String(i+1).padStart(2,'0')+' / 两个知识点</span><h2>'+esc(l.title)+'</h2><p>'+esc(l.intro)+'</p><div class="lesson-columns">'+(l.concepts||[]).map(c=>'<div><h3>'+esc(c.title)+'</h3><p>'+esc(c.plain)+'</p><div class="code-quote">'+esc(c.example||'')+'</div><details class="details"><summary>专业版</summary><p>'+esc(c.technical)+'</p></details></div>').join('')+'</div><h3>把白话和术语对上</h3><p>'+(l.termMap||[]).map(([a,b])=>esc(a)+' → <strong>'+esc(b)+'</strong>').join('　/　')+'</p><p class="gotcha">容易误解：'+esc(l.commonMisunderstanding)+'</p><div class="quiz-card"><strong style="font-size:12px">先自己说一遍，再看解释</strong>'+(l.checks||[]).map((c,j)=>'<p>'+(j+1)+'. '+esc(c.question)+'</p><details><summary>看解释</summary><p class="quiz-answer">'+esc(c.answer)+'</p></details>').join('')+'</div><button class="button primary" data-lesson-example="'+esc(l.exampleId||'blink')+'">到实验台验证 →</button></article>').join('');$$('[data-lesson-example]').forEach(b=>b.onclick=()=>openVerificationExample(b.dataset.lessonExample));}
 $('#lessonButton').onclick=()=>nativeMode()&&!example.nativeOnly?showFirmwareMenu():showExperimentCard();
 function editorBoardContext(){const p=board();const resolution=/analogReadResolution\s*\(\s*(\d+)/.exec(Object.values(files).join('\n'));return {...p,adcMax:isArduino()?2**(resolution?Number(resolution[1]):p.adcDefaultBits)-1:p.adcMax};}
 editorAssistant=createEditorAssistant({textarea:$('#codeEditor'),annotations:$('#lineAnnotations'),popup:$('#completionPopup'),hint:$('#lineHint'),getContext:()=>({language:isArduino()?'arduino':'spl',pins:board().gpioPins||[],board:editorBoardContext()}),explain,onRun:()=>sourcePending?applySourceDraft():toggleRun()});
@@ -4886,7 +4919,7 @@ for(const [id,action] of [['#scenePanView','pan'],['#sceneOrbitView','orbit']]){
 }
 $('#snapPartButton').onclick=event=>{const button=event.currentTarget,enabled=button.getAttribute('aria-pressed')!=='true';button.setAttribute('aria-pressed',String(enabled));workbench?.setSnapEnabled(enabled);toast(enabled?'孔位吸附已开启。拖到孔位附近会对齐，接线需手动确认。':'孔位吸附已关闭，可以自由摆放元件。');};
 let resourceLibrary=null;
-async function loadResourceLibrary(){try{const response=await fetch('./resources.json');if(!response.ok)throw Error('HTTP '+response.status);const base=await response.json();resources=[...base,...EXTRA_RESOURCES];resourceLibrary?.destroy();resourceLibrary=mountResourceLibrary($('#page-library'),resources,{onNavigate:go,onStartExample:id=>{loadExample(id);go('lab');}});}catch(err){$('#page-library').innerHTML='<div class="resource-load-error"><h1>资料库暂时没有载入</h1><p>实验台和代码仍可使用。请点击重试重新读取资料索引。</p><button class="button primary" id="retryResources">重新载入</button></div>';$('#retryResources').onclick=loadResourceLibrary;}}
+async function loadResourceLibrary(){try{const response=await fetch('./resources.json');if(!response.ok)throw Error('HTTP '+response.status);const base=await response.json();resources=[...base,...EXTRA_RESOURCES];resourceLibrary?.destroy();resourceLibrary=mountResourceLibrary($('#page-library'),resources,{onNavigate:go,onStartExample:openVerificationExample});syncMobileLibrary();}catch(err){$('#page-library').innerHTML='<div class="resource-load-error"><h1>资料库暂时没有载入</h1><p>实验台和代码仍可使用。请点击重试重新读取资料索引。</p><button class="button primary" id="retryResources">重新载入</button></div>';$('#retryResources').onclick=loadResourceLibrary;}}
 loadResourceLibrary();
 updateUndoButtons();refresh();syncHashPage();window.addEventListener('resize',()=>{workbench?.resize();drawWave();});window.addEventListener('beforeunload',()=>{try{localStorage.setItem(STORAGE,JSON.stringify(savedWorkspace()));}catch{}});document.addEventListener('visibilitychange',()=>{if(document.hidden){pause();cancelProbePicking();clearBoardHolePicker();clearPartPlacement();cancelPendingConnection();}});
 // Read-only inspection surface for automated development checks. No code execution or credentials.
@@ -4909,10 +4942,89 @@ function showExperimentCard(){
  const keep=()=>{learningNotes[example.id]={prediction:$('#experimentPrediction').value.slice(0,2000),observed:$('#experimentObserved').checked};try{localStorage.setItem('physical-lab-learning-notes',JSON.stringify(learningNotes));}catch{}};$('#experimentPrediction').oninput=keep;$('#experimentObserved').onchange=keep;
  $('#experimentLocate').onclick=()=>{$('#modal').close();go('lab');setMobilePane('editor');jumpLine(g.location.file,g.location.line);};
  $('#experimentObserve').onclick=()=>{$('#modal').close();go('lab');const part=circuit.components.find(p=>p.type===g.target);if(part){focusDiagnosticPart(part.id);setMobilePane('scene');}else if(g.target==='serial'){setMobilePane('editor');$('.monitor-panel').classList.remove('collapsed');$('[data-monitor="serial"]').click();}else{setMobilePane('scene');selectScenePart('mcu');}toast('观察点已就位。点击运行，再比较你的预测。');};
- $('#experimentCourse').onclick=()=>{$('#modal').close();go('learn');const l=lessons.find(l=>l.exampleId===example.id)||lessons[0];$('#lesson-'+l.id)?.scrollIntoView({behavior:'smooth',block:'start'});};
+ $('#experimentCourse').onclick=()=>{$('#modal').close();go('learn');const l=lessons.find(l=>l.exampleId===example.id)||lessons[0];showLesson(l.id);};
 }
-function setMobilePane(pane){if(pane==='editor')leaveWorkbench();document.body.dataset.mobilePane=pane;$$('[data-mobile-pane]').forEach(b=>b.classList.toggle('active',b.dataset.mobilePane===pane));requestAnimationFrame(()=>{workbench?.resize();drawWave();});}
-$$('[data-mobile-pane]').forEach(b=>b.onclick=()=>setMobilePane(b.dataset.mobilePane));
+const compactWorkspace = matchMedia('(max-width: 760px), (max-width: 950px) and (max-height: 500px)');
+const portraitTablet = matchMedia('(min-width: 761px) and (max-width: 900px) and (min-height: 501px)');
+const mobileTabBar = $('.mobile-workspace-tabs');
+const workspaceActions = $('.workspace-topbar .project-actions');
+const projectMenu = document.createElement('details');
+projectMenu.id = 'mobileProjectMenu';
+projectMenu.hidden = true;
+const projectMenuTitle = document.createElement('summary');
+projectMenuTitle.textContent = '工程操作';
+projectMenu.append(projectMenuTitle);
+workspaceActions.before(projectMenu);
+
+function syncMobileLibrary() {
+ const library = $('#page-library .rl-shell');
+ const browser = library?.querySelector('.rl-browser');
+ if(!browser)return;
+ if(compactWorkspace.matches&&library.firstElementChild!==browser)library.prepend(browser);
+ else if(!compactWorkspace.matches&&browser.previousElementSibling!==library.querySelector('.rl-source-grid'))library.querySelector('.rl-source-grid').after(browser);
+}
+function updateMobileWorkspace() {
+ const compact = compactWorkspace.matches;
+ const active = document.activeElement;
+ const run = $('#runButton');
+ const scene = $('#scene');
+ const readout = $('#pinReadout');
+ const feedback = $('#sourceHardwareBar');
+ const focused = compact && document.body.dataset.mobileFocus === 'true';
+ if(compact) {
+  if(run.parentElement!==mobileTabBar)$('#mobileFocusButton').before(run);
+  if(workspaceActions.parentElement!==projectMenu)projectMenu.append(workspaceActions);
+ } else {
+  if(run.parentElement===mobileTabBar)$('.run-actions').prepend(run);
+  if(workspaceActions.parentElement===projectMenu)projectMenu.after(workspaceActions);
+ }
+ if(compact||portraitTablet.matches){
+  if(scene.previousElementSibling)scene.parentElement.prepend(scene,readout);
+ } else if(scene.previousElementSibling!==$('#probePanel'))$('#probePanel').after(scene,readout);
+ projectMenu.hidden=!compact;
+ if(focused && feedback.previousElementSibling?.classList.contains('editor-panel')!==true)$('#editorStack > .editor-panel').after(feedback);
+ if(!focused && feedback.previousElementSibling!==$('#firmwarePanel'))$('#firmwarePanel').after(feedback);
+ syncMobileLibrary();
+ if(active!==document.body && document.activeElement!==active && active?.getClientRects().length)active.focus({preventScroll:true});
+ requestAnimationFrame(()=>{workbench?.resize();drawWave();});
+}
+function setMobilePane(pane){
+ if(pane==='editor')leaveWorkbench();
+ document.body.dataset.mobilePane=pane;
+ $$('[data-mobile-pane]').forEach(button=>{
+  const active=button.dataset.mobilePane===pane;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+ requestAnimationFrame(()=>{workbench?.resize();drawWave();});
+}
+function revealMobileWorkspace(){
+ const main=$('#mainContent');
+ main.scrollTop=0;
+ if(mobileTabBar.getBoundingClientRect().bottom>main.getBoundingClientRect().bottom)mobileTabBar.scrollIntoView({block:'start'});
+}
+function openVerificationExample(id){
+ loadExample(id);go('lab');setMobilePane('scene');
+ if(compactWorkspace.matches){
+  revealMobileWorkspace();
+  $('[data-mobile-pane="scene"]').focus({preventScroll:true});
+ }
+}
+$$('[data-mobile-pane]').forEach(button=>button.onclick=()=>{
+ setMobilePane(button.dataset.mobilePane);
+ revealMobileWorkspace();
+});
+$('#mobileFocusButton').onclick=event=>{
+ const focused=document.body.dataset.mobileFocus!=='true';
+ document.body.dataset.mobileFocus=String(focused);
+ event.currentTarget.setAttribute('aria-pressed',String(focused));
+ event.currentTarget.textContent=focused?'退出专注':'专注';
+ updateMobileWorkspace();
+ revealMobileWorkspace();
+};
+compactWorkspace.addEventListener('change',updateMobileWorkspace);
+portraitTablet.addEventListener('change',updateMobileWorkspace);
+updateMobileWorkspace();
 const divider=$('#workspaceDivider');let dividerStart=null;
 function setSplit(value){const v=Math.max(35,Math.min(65,value));document.documentElement.style.setProperty('--scene-share',v+'%');divider.setAttribute('aria-valuenow',String(Math.round(v)));workbench?.resize();drawWave();}
 divider.onpointerdown=e=>{dividerStart=$('#studioGrid').getBoundingClientRect();divider.setPointerCapture(e.pointerId);e.preventDefault();};divider.onpointermove=e=>{if(dividerStart)setSplit((e.clientX-dividerStart.left)/dividerStart.width*100);};divider.onpointerup=()=>dividerStart=null;divider.onpointercancel=()=>dividerStart=null;divider.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();setSplit(Number(divider.getAttribute('aria-valuenow'))+(e.key==='ArrowRight'?2:-2));}};

@@ -1,0 +1,156 @@
+.mobile-only { display: none; }
+
+/* Keep the desktop split workspace on larger screens, including tablets in portrait. */
+@media (min-width: 761px) and (max-width: 900px) and (min-height: 501px) {
+  #page-lab.active { padding: 10px; gap: 8px; }
+  .runbar { gap: 6px; padding: 6px; min-height: 0; }
+  .runbar .example-picker { min-width: 0; }
+  .runbar .run-actions { gap: 4px; }
+  .runbar .run-status { flex-basis: 100%; flex-wrap: wrap; }
+  .scene-toolbar { padding: 5px 6px; gap: 4px; }
+  .scene-camera-actions { gap: 4px; }
+  #page-lab .scene-panel > #scene { flex: 0 0 auto; height: clamp(290px, 36dvh, 480px); }
+}
+
+@media (max-width: 760px), (max-width: 950px) and (max-height: 500px) {
+  #appFrame:not([hidden]) { overflow: hidden; }
+  .app-shell {
+    flex: 1 1 auto;
+    grid-template: auto minmax(0, 1fr) / minmax(0, 1fr);
+    height: auto;
+  }
+  .side-rail {
+    grid-area: 1 / 1;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 4px;
+    padding: 2px 8px;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    overflow: auto hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+  .side-rail .rail-spacer { display: none; }
+  .side-rail > button, .side-rail > button.rail-market {
+    width: auto;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 3px 7px;
+    margin: 0;
+    gap: 1px;
+    font-size: 11px;
+  }
+  .side-rail > button > span { width: 19px; height: 19px; }
+  .side-rail svg { width: 17px; height: 17px; }
+  #mainContent { grid-area: 2 / 1; overscroll-behavior-y: contain; }
+  .catalog-drawer {
+    grid-area: 2 / 1;
+    inset: 0;
+    width: auto;
+    max-width: none;
+    overscroll-behavior: contain;
+  }
+  #catalogSearch, .rl-search input { font-size: 16px; }
+  .catalog-search-wrap, .catalog-filter-row select, .catalog-tabs button { min-height: 44px; }
+
+  #page-lab.active { min-height: 0; padding: 8px 8px 14px; gap: 8px; }
+  .workspace-topbar { gap: 6px; min-height: 0; flex-wrap: wrap; }
+  .workspace-title h1, body[data-audience=pro] .workspace-title h1 { font-size: 17px; }
+  #mobileProjectMenu:not([hidden]) { display: block; }
+  #mobileProjectMenu[open] { flex-basis: 100%; }
+  #mobileProjectMenu summary {
+    min-height: 44px;
+    align-content: center;
+    padding-inline: 8px;
+    font-weight: 600;
+    color: #365644;
+    cursor: pointer;
+  }
+  #mobileProjectMenu .project-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    padding: 4px 0;
+  }
+  #mobileProjectMenu .button { min-height: 44px; white-space: normal; }
+  #page-lab .runbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    min-height: 0;
+    padding: 5px 8px;
+    overflow: visible;
+  }
+  #page-lab .runbar .board-selector { flex: 1 1 105px; min-width: 0; min-height: 44px; }
+  #page-lab .runbar .board-selector > span:nth-child(2) { min-width: 0; }
+  #page-lab .runbar .board-selector strong { max-width: 100%; }
+  #page-lab .runbar .example-picker { order: 1; flex: 1 1 132px; min-width: 0; }
+  #page-lab .runbar .example-picker select { width: 100%; min-width: 0; min-height: 44px; }
+  #page-lab .runbar .run-actions { order: 2; margin: 0; flex: 0 1 auto; flex-wrap: wrap; }
+  #page-lab .runbar .run-actions .button, #firmwareModeButton { min-height: 44px; }
+  #page-lab .runbar .run-status { display: flex; order: 5; flex: 1 1 140px; flex-wrap: wrap; min-width: 0; }
+
+  .mobile-workspace-tabs {
+    position: sticky;
+    z-index: 12;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto;
+    gap: 3px;
+    padding: 3px;
+    border: 1px solid #dce6d5;
+    border-radius: 7px;
+    background: #edf3e8;
+  }
+  .mobile-workspace-tabs button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 4px 6px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 650;
+    color: #41614b;
+  }
+  .mobile-workspace-tabs .active { background: white; color: #185b3c; }
+  .mobile-workspace-tabs #runButton { color: white; background: #245c40; }
+  .mobile-workspace-tabs .mobile-only { display: block; }
+  #mobileFocusButton[aria-pressed=true] { background: #d8e8d7; }
+
+  #page-lab .studio-grid { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  #page-lab .workspace-divider { display: none; }
+  #page-lab .scene-stack, #page-lab .editor-stack { width: 100%; min-height: 0; }
+  body:not([data-mobile-pane=editor]) #page-lab .editor-stack,
+  body[data-mobile-pane=editor] #page-lab .scene-stack { display: none; }
+  body[data-mobile-pane=editor] #page-lab .editor-stack { display: flex; }
+  #page-lab .scene-panel { height: auto; min-height: 0; max-height: none; }
+  #page-lab .scene-panel > #scene { height: clamp(238px, 48dvh, 510px); min-height: 0; flex: 0 0 auto; }
+  #scene .workbench-surface { height: 100%; grid-template-rows: minmax(0, 1fr) 50px; }
+  #scene .workbench-surface > div:first-child { min-height: 0 !important; }
+  #scene .workbench-surface .scene-zoom-button { min-height: 44px !important; }
+  .scene-panel .board-workflow { border-top: 1px solid var(--line); }
+  .scene-panel .scene-toolbar { gap: 6px; }
+  .scene-panel :is(.view-actions, .scene-camera-actions, .wire-actions, .power-bar) { flex-wrap: wrap; }
+  .scene-panel :is(.view-actions, .scene-camera-actions, .wire-actions) :is(button, summary) { min-height: 44px; }
+  #page-lab :is(#scene, #codeEditor) { scroll-margin-block: 55px 8px; }
+  body[data-mobile-focus=true] #page-lab :is(.workspace-topbar, .beginner-guide, .runbar, .learning-strip) { display: none; }
+
+  .editor-stack .editor-panel { min-height: 390px; }
+  #codeEditor, #codeHighlight { font-size: 16px !important; line-height: 22px; }
+  #lineNumbers { line-height: 22px; }
+  #codeEditor { overscroll-behavior: contain; }
+  #completionPopup { overscroll-behavior: contain; }
+  #editorStack > #sourceHardwareBar { border: 1px solid #d2ded3; border-radius: 10px; }
+  .reading-page :is(.filter-bar, .lesson-card) { min-width: 0; }
+  .reading-page .filter-bar { flex-wrap: wrap; }
+  .reading-page .filter-bar :is(input, select) { min-width: 0; min-height: 44px; font-size: 16px; }
+  .reading-page .filter-bar .button { min-height: 44px; }
+  .rl-browser .rl-search-clear, .rl-browser .rl-pagination button { min-width: 44px; min-height: 44px; }
+}
+
+@media (max-width: 950px) and (max-height: 500px) {
+  .app-header { min-height: 46px; height: 46px; }
+  #page-lab .scene-panel > #scene { height: max(206px, 65dvh); }
+}

@@ -1492,7 +1492,8 @@ export function createWorkbench2D(container, hooks = {}, options = {}) {
     if(boardGrab)content+=hit.kind==='pin'&&hit.id==='mcu'&&hit.direct?'\n按住引脚拖到目标孔':'\n拖动板卡换孔';
     tooltip.textContent=content;tooltip.style.display='block';
     const bounds=stage.getBoundingClientRect();
-    tooltip.style.left=clamp(event.clientX-bounds.left+16,8,Math.max(8,bounds.width-280))+'px';
+    tooltip.style.maxWidth=Math.min(265,Math.max(1,bounds.width-16))+'px';tooltip.style.overflowWrap='anywhere';
+    tooltip.style.left=clamp(event.clientX-bounds.left+16,8,Math.max(8,bounds.width-tooltip.offsetWidth-8))+'px';
     tooltip.style.top=clamp(event.clientY-bounds.top+16,8,Math.max(8,bounds.height-tooltip.offsetHeight-8))+'px';
   }
   function refreshConnectionState(){

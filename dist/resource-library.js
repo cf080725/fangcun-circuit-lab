@@ -281,8 +281,11 @@ export function mountResourceLibrary(container, resources, {onNavigate, onStartE
     const dialog=$('[data-rl-dialog]');
     dialog.addEventListener('close',()=>{
       const closedId=detailId;detailId=null;previewing=false;
-      const fallback=[...root.querySelectorAll('[data-rl-action="detail"]')].find(element=>element.dataset.id===closedId)||$('[data-rl-result-count]');
-      (returnFocus?.isConnected?returnFocus:fallback)?.focus?.();
+      if(!root.getClientRects().length)return;
+      const actions=[...root.querySelectorAll('[data-rl-action="detail"], [data-rl-action="preview"]')].filter(element=>element.dataset.id===closedId);
+      const fallback=actions.find(element=>element.dataset.rlAction===returnFocus?.dataset.rlAction)||actions[0]||$('[data-rl-result-count]');
+      (returnFocus?.isConnected?returnFocus:fallback)?.focus();
+      returnFocus=null;
     });
     dialog.addEventListener('click',event=>{if(event.target===dialog){const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();}});
   }
@@ -371,7 +374,13 @@ export function mountResourceLibrary(container, resources, {onNavigate, onStartE
 
   function applyFilters(partial, {reset=false,scroll=false}={}) {
     clearTimeout(searchTimer);if(reset)model.resetFilters();model.setFilters(partial);page=1;render();
-    if(scroll)$('[data-rl-result-count]')?.scrollIntoView?.({behavior:'smooth',block:'start'});
+    if(scroll)focusResults();
+  }
+
+  function focusResults() {
+    const results=$('[data-rl-result-count]');
+    results.focus({preventScroll:true});
+    results.scrollIntoView({block:'start'});
   }
 
   function onClick(event) {
@@ -384,14 +393,19 @@ export function mountResourceLibrary(container, resources, {onNavigate, onStartE
     else if(action==='preview')openResource(id,{preview:true});
     else if(action==='close-detail')closeDetail();
     else if(action==='favorite') {const result=model.toggleFavorite(id);render();if(detailId)renderDetail();const scope=detailId?$('[data-rl-dialog]'):root;const replacement=[...scope.querySelectorAll('[data-rl-action="favorite"]')].find(element=>element.dataset.id===id);(replacement||$('[data-rl-result-count]'))?.focus?.();notice(result.favorite?result.persisted?'已收藏，下次可以从“已收藏”找到。':'已在当前页收藏；浏览器存储不可用，刷新后可能丢失。':'已取消收藏。');}
-    else if(action==='clear')applyFilters({[button.dataset.filter]:DEFAULT_FILTERS[button.dataset.filter]});
-    else if(action==='reset')applyFilters({}, {reset:true});
+    else if(action==='clear'){
+      const key=button.dataset.filter;
+      applyFilters({[key]:DEFAULT_FILTERS[key]});
+      const input=$(`[data-rl-filter="${key}"]`);
+      if(input)input.focus();else focusResults();
+    }
+    else if(action==='reset')applyFilters({}, {reset:true,scroll:true});
     else if(action==='collection')applyFilters({collection:button.dataset.collection},{reset:true,scroll:true});
     else if(action==='downloaded-shortcut')applyFilters({downloaded:true},{reset:true,scroll:true});
     else if(action==='source')applyFilters({source:button.dataset.source},{reset:true,scroll:true});
     else if(action==='provider')applyFilters({source:button.dataset.source,author:button.dataset.author},{reset:true,scroll:true});
     else if(action==='route')applyFilters({route:button.dataset.route},{reset:true,scroll:true});
-    else if(action==='page') {page=Number(button.dataset.page)||1;render();$('[data-rl-result-count]')?.scrollIntoView?.({block:'start'});}
+    else if(action==='page') {page=Number(button.dataset.page)||1;render();focusResults();}
     else if(action==='navigate') {closeDetail();onNavigate?.(button.dataset.page);}
     else if(action==='route-example') {const route=routeById(button.dataset.route);if(route?.exampleId){closeDetail();onStartExample?.(route.exampleId,{resourceId:null,reason:route.title});}}
     else if(action==='resource-example') {const resource=model.find(id),practice=resource&&readingGuide(resource).practice;if(practice){closeDetail();onStartExample?.(practice.id,{resourceId:id,reason:practice.reason});}}
